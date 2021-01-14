@@ -1,2 +1,4 @@
-com/mycompany/hotel/DBManager.class
+com/mycompany/model/JDBCTemplate.class
 com/mycompany/hotel/HotelInfo.class
+com/mycompany/model/DBManager.class
+com/mycompany/hotel/DBManager.class
