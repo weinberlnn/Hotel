@@ -6,6 +6,10 @@
 package com.mycompany.model;
 
 import com.mycompany.entity.DataMessage;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Observable;
 
 /**
@@ -19,8 +23,22 @@ public class Model extends Observable{
     public Model(){
         this.jdbcTemplate = new JDBCTemplate();
     }
+    public String getMD5String(String password){
+        byte[] digest = null;
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("md5");
+            digest  = md5.digest(password.getBytes("utf-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //16是表示转换为16进制数
+        String md5Str = new BigInteger(1, digest).toString(16);
+        return md5Str;
+    }
     public void checkUserWhenRegister(String username,String password,String email){
-        if(jdbcTemplate.checkUserWhenRegister(username, password, email)){
+        if(jdbcTemplate.checkUserWhenRegister(username,getMD5String(password), email)){
             dm.setCheckflag(0);
             this.setChanged();
             this.notifyObservers(dm);
@@ -32,10 +50,10 @@ public class Model extends Observable{
         }
     }
     public void register(String username,String password,String email){
-        jdbcTemplate.register(username, password, email);
+        jdbcTemplate.register(username,getMD5String(password), email);
     }
     public void login(String username,String password){
-        if(jdbcTemplate.login(username, password)){
+        if(jdbcTemplate.login(username,getMD5String(password))){
             dm.setLoginflag(1);
             this.setChanged();
             this.notifyObservers(dm);
