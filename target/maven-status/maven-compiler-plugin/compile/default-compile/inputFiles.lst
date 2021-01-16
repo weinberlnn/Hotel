@@ -10,3 +10,9 @@
 /Users/fkmog/NetBeansProjects/Hotel/src/main/java/com/mycompany/view/NewJFrame.java
 /Users/fkmog/NetBeansProjects/Hotel/src/main/java/com/mycompany/entity/User.java
 /Users/fkmog/NetBeansProjects/Hotel/src/main/java/com/mycompany/view/StartPage.java
+/Users/mac/NetBeansProjects/Hotel/src/main/java/com/mycompany/entity/LikeItem.java
+/Users/mac/NetBeansProjects/Hotel/src/main/java/com/mycompany/entity/Room.java
+/Users/mac/NetBeansProjects/Hotel/src/main/java/com/mycompany/model/JDBCTemplate.java
+/Users/mac/NetBeansProjects/Hotel/src/main/java/com/mycompany/controller/Controller.java
+/Users/mac/NetBeansProjects/Hotel/src/main/java/com/mycompany/model/DBManager.java
+/Users/mac/NetBeansProjects/Hotel/src/main/java/com/mycompany/entity/Order.java

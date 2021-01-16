@@ -17,7 +17,9 @@ public class Hotel {
     private String hotelbreakfast;
     private String hotelpicture;
     private int hotelnumber;
-    public Hotel(int hotelid, String hotelname, double hotelcost, String hotelstyle, String hotelbreakfast, String hotelpicture, int hotelnumber) {
+    private double hotelpoint;
+    private double hotelsimilarity;
+    public Hotel(int hotelid, String hotelname, double hotelcost, String hotelstyle, String hotelbreakfast, String hotelpicture, int hotelnumber,double hotelpoint,double hotelsimilarity) {
         this.hotelid = hotelid;
         this.hotelname = hotelname;
         this.hotelcost = hotelcost;
@@ -25,6 +27,8 @@ public class Hotel {
         this.hotelbreakfast = hotelbreakfast;
         this.hotelpicture = hotelpicture;
         this.hotelnumber = hotelnumber;
+        this.hotelpoint = hotelpoint;
+        this.hotelsimilarity = hotelsimilarity;
     }
 
     public int getHotelid() {
@@ -81,6 +85,22 @@ public class Hotel {
 
     public void setHotelnumber(int hotelnumber) {
         this.hotelnumber = hotelnumber;
+    }
+
+    public double getHotelpoint() {
+        return hotelpoint;
+    }
+
+    public void setHotelpoint(double hotelpoint) {
+        this.hotelpoint = hotelpoint;
+    }
+
+    public double getHotelsimilarity() {
+        return hotelsimilarity;
+    }
+
+    public void setHotelsimilarity(double hotelsimilarity) {
+        this.hotelsimilarity = hotelsimilarity;
     }
     
 }

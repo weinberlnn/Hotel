@@ -6,6 +6,15 @@
 package com.mycompany.model;
 
 import com.mycompany.entity.DataMessage;
+import com.mycompany.entity.Hotel;
+import com.mycompany.entity.Order;
+import com.mycompany.entity.Room;
+import com.mycompany.entity.User;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -15,12 +24,27 @@ import java.util.Observable;
 public class Model extends Observable{
     public JDBCTemplate jdbcTemplate;
     public DataMessage dm = new DataMessage();
-    public String username;
+    public User user;
     public Model(){
         this.jdbcTemplate = new JDBCTemplate();
     }
-    public void checkUserWhenRegister(String username,String password,String email){
-        if(jdbcTemplate.checkUserWhenRegister(username, password, email)){
+    public String getMD5String(String password){
+        byte[] digest = null;
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("md5");
+            digest  = md5.digest(password.getBytes("utf-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //16是表示转换为16进制数
+        String md5Str = new BigInteger(1, digest).toString(16);
+        return md5Str;
+    }
+    public void checkUserWhenRegister(String username){
+        dm.initialize();
+        if(jdbcTemplate.checkUserWhenRegister(username)){
             dm.setCheckflag(0);
             this.setChanged();
             this.notifyObservers(dm);
@@ -32,10 +56,12 @@ public class Model extends Observable{
         }
     }
     public void register(String username,String password,String email){
-        jdbcTemplate.register(username, password, email);
+        jdbcTemplate.register(username,getMD5String(password), email);
     }
     public void login(String username,String password){
-        if(jdbcTemplate.login(username, password)){
+        dm.initialize();
+        if(jdbcTemplate.login(username,getMD5String(password))!=null){
+            user = jdbcTemplate.login(username, getMD5String(password));
             dm.setLoginflag(1);
             this.setChanged();
             this.notifyObservers(dm);
@@ -46,5 +72,111 @@ public class Model extends Observable{
             this.notifyObservers(dm);
         }
     }
-    
+    public void getUserInfo(){
+    }
+    public void logout(){
+        dm.initialize();
+        user = null;
+        dm.setLoginflag(0);
+        this.setChanged();
+        this.notifyObservers(dm);
+    }
+    public void getHotelInfo(int userid){
+        dm.initialize();
+        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfo(userid);
+        if(hotelcollection!=null){
+            dm.setGethotelinfoflag(1);
+            dm.setSource(hotelcollection);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setGethotelinfoflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+    }
+    public void getHotelInfoByStyle(String hotelstyle){
+        dm.initialize();
+        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfoByStyle(hotelstyle);
+        if(hotelcollection!=null){
+            dm.setGethotelinfoflag(1);
+            dm.setSource(hotelcollection);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setGethotelinfoflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+    }
+    public void getHotelInfoByBreakfast(String hotelbreakfast){
+        dm.initialize();
+        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfoByStyle(hotelbreakfast);
+        if(hotelcollection!=null){
+            dm.setGethotelinfoflag(1);
+            dm.setSource(hotelcollection);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setGethotelinfoflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+    }
+    public void getRoomInfo(int hotelid){
+        dm.initialize();
+        ArrayList<Room> roomcollection = jdbcTemplate.getRoomInfo(hotelid);
+        if(roomcollection!=null){
+            dm.setGetroominfoflag(1);
+            dm.setSource(roomcollection);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setGetroominfoflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+    }
+    public void booking(int roomid,int roomnumber){
+        dm.initialize();
+        if(jdbcTemplate.booking(roomid, roomnumber)){
+            dm.setRoomexistflag(1);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setRoomexistflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+            
+        }
+    }
+    public void formOrder(int userid,String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
+        jdbcTemplate.formOrder(userid, usertruename, userphone, bookday, totalcost, hotelname, roomstyle);
+    }
+    public void getOrderInfo(int userid){
+        dm.initialize();
+        ArrayList<Order> ordercollection = jdbcTemplate.getOrderInfo(userid);
+        if(ordercollection!=null){
+            dm.setGetorderinfoflag(1);
+            dm.setSource(ordercollection);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setGetorderinfoflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+    }
+    public void pay(){
+        dm.initialize();
+        dm.setPayflag(1);
+        this.setChanged();
+        this.notifyObservers(dm);
+    }
 }
