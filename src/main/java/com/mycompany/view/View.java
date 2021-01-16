@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
@@ -56,9 +57,17 @@ public class View extends JFrame implements Observer{
      private JButton ButtonforRegister = new JButton("Get Registe");
      private JButton Back = new JButton("Back");
      
-    private boolean Registerstarted = false;
+     private boolean Registerstarted = false;
     
-    
+    //OrderList Page
+     int OrderNumber = 30;
+    private JPanel orderlistpanel ;
+    private JPanel orderlistpanel1 = new JPanel();
+    private JScrollPane orderlistScroll = new JScrollPane(orderlistpanel1);
+   
+    private JLabel orderlistlabel ;
+    private JTextField orderlisttext ;
+    private JButton orderlistbu1 ;
     public View(){
         
         this.setLayout(new GridLayout(3,1));
@@ -164,6 +173,31 @@ public class View extends JFrame implements Observer{
         this.revalidate();
         this.repaint();
         
+    }
+    
+    public void OrderList(){
+        this.setLayout(new GridLayout(2,1) );
+        this.getContentPane().removeAll();
+        orderlistpanel1.setLayout(new GridLayout(OrderNumber,1) );
+        orderlistpanel1.setBounds(20,20,500,500);
+        for(int i=0;i<OrderNumber;i++){
+            orderlistpanel = new JPanel();
+            orderlistlabel = new JLabel("No: "+i);
+            orderlisttext = new JTextField("This is NO: "+i);
+            orderlistbu1 = new JButton("Delete");
+            orderlistpanel.add(orderlistlabel);
+            orderlistpanel.add(orderlisttext);
+            orderlistpanel.add(orderlistbu1);
+          
+            
+            
+            orderlistpanel1.add(orderlistpanel);
+           
+        }
+        this.getContentPane().add(orderlistScroll);
+        this.setVisible(true);
+        this.revalidate();
+        this.repaint();
     }
     
      public void addActionListener(ActionListener listener) {
