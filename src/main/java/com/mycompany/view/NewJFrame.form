@@ -21,19 +21,15 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\25433\Desktop\StudentInfo\src\images\&#x4fee;&#x6539;&#x5bc6;&#x7801;.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Change password"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\25433\Desktop\StudentInfo\src\images\&#x9000;&#x51fa;.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
-                <Property name="actionCommand" type="java.lang.String" value="Exit"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -51,9 +47,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\25433\Desktop\StudentInfo\src\images\&#x786e;&#x8ba4;.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Order"/>
               </Properties>
             </MenuItem>

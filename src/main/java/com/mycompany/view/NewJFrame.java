@@ -57,13 +57,15 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenu3.setText("System settings");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\修改密码.png")); // NOI18N
         jMenuItem1.setText("Change password");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\退出.png")); // NOI18N
         jMenuItem2.setText("Exit");
-        jMenuItem2.setActionCommand("Exit");
         jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
@@ -74,7 +76,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenuItem3.setToolTipText("");
         jMenu2.add(jMenuItem3);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\确认.png")); // NOI18N
         jMenuItem5.setText("Order");
         jMenu2.add(jMenuItem5);
 
@@ -111,6 +112,10 @@ public class NewJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments

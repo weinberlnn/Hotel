@@ -64,10 +64,29 @@ public class View extends JFrame implements Observer{
     private JPanel orderlistpanel ;
     private JPanel orderlistpanel1 = new JPanel();
     private JScrollPane orderlistScroll = new JScrollPane(orderlistpanel1);
-   
     private JLabel orderlistlabel ;
     private JTextField orderlisttext ;
     private JButton orderlistbu1 ;
+    
+    //NavigateBar
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3;
+    
+    
     public View(){
         
         this.setLayout(new GridLayout(3,1));
@@ -175,9 +194,106 @@ public class View extends JFrame implements Observer{
         
     }
     
-    public void OrderList(){
-        this.setLayout(new GridLayout(2,1) );
-        this.getContentPane().removeAll();
+    public void Hotelinformation(){
+       this.getContentPane().removeAll();
+       NavigateBar();
+       OrderList();
+       
+       this.setLayout(new GridLayout(1,1));
+       this.add(orderlistScroll);
+       this.setVisible(true);
+    }
+    
+    
+    private void NavigateBar(){
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem();
+
+        jMenuItem4.setText("jMenuItem4");
+
+        jMenuItem6.setText("jMenuItem6");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Hotel Booking System");
+
+        jRadioButton1.setText("jRadioButton1");
+
+        jRadioButton2.setText("jRadioButton2");
+
+        jMenu3.setText("System settings");
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\修改密码.png")); // NOI18N
+        jMenuItem1.setText("Change password");
+        jMenu3.add(jMenuItem1);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\退出.png")); // NOI18N
+        jMenuItem2.setText("Exit");
+        jMenuItem2.setActionCommand("Exit");
+        jMenu3.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("My");
+
+        jMenuItem3.setText("Collection");
+        jMenuItem3.setToolTipText("");
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\确认.png")); // NOI18N
+        jMenuItem5.setText("Order");
+        jMenu2.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Screen");
+
+        jRadioButtonMenuItem2.setText("Single room");
+        jMenu4.add(jRadioButtonMenuItem2);
+
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("Double room");
+        jMenu4.add(jRadioButtonMenuItem1);
+
+        jRadioButtonMenuItem3.setSelected(true);
+        jRadioButtonMenuItem3.setText("Breakfast");
+        jMenu4.add(jRadioButtonMenuItem3);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 274, Short.MAX_VALUE)
+        );
+
+        pack();
+    }
+    
+    private void OrderList(){
+//        this.setLayout(new GridLayout(2,1) );
+//        this.getContentPane().removeAll();
         orderlistpanel1.setLayout(new GridLayout(OrderNumber,1) );
         orderlistpanel1.setBounds(20,20,500,500);
         for(int i=0;i<OrderNumber;i++){
@@ -188,23 +304,29 @@ public class View extends JFrame implements Observer{
             orderlistpanel.add(orderlistlabel);
             orderlistpanel.add(orderlisttext);
             orderlistpanel.add(orderlistbu1);
-          
-            
             
             orderlistpanel1.add(orderlistpanel);
-           
         }
-        this.getContentPane().add(orderlistScroll);
-        this.setVisible(true);
-        this.revalidate();
-        this.repaint();
+        
+//        this.getContentPane().add(orderlistScroll);
+//        this.setVisible(true);
+//        this.revalidate();
+//        this.repaint();
     }
+    
     
      public void addActionListener(ActionListener listener) {
         this.loginButton.addActionListener(listener);
         this.registerButton.addActionListener(listener);
         this.ButtonforRegister.addActionListener(listener);
         this.Back.addActionListener(listener);
+        this.jMenuItem1.addActionListener(listener);//change password
+        this.jMenuItem2.addActionListener(listener);//Exit
+        this.jMenuItem3.addActionListener(listener);//Collection
+        this.jMenuItem4.addActionListener(listener);//Order
+        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
+        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
+        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
     }
      
      
