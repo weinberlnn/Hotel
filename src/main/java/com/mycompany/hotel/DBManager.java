@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author mac
  */
 public class DBManager {
-    private static final String URL = "jdbc:derby://localhost:1527/HotelBookSystem";
+    private static final String URL = "jdbc:derby:HotelBook";
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "123456";
     Connection conn;

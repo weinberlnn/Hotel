@@ -1,4 +1,10 @@
 com/mycompany/model/JDBCTemplate.class
+com/mycompany/hotel/DBManager.class
+com/mycompany/model/Model.class
+com/mycompany/controller/Controller.class
 com/mycompany/hotel/HotelInfo.class
 com/mycompany/model/DBManager.class
-com/mycompany/hotel/DBManager.class
+com/mycompany/entity/Hotel.class
+com/mycompany/entity/DataMessage.class
+com/mycompany/entity/User.class
+com/mycompany/view/View.class
