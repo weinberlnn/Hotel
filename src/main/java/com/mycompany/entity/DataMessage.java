@@ -28,7 +28,7 @@ public class DataMessage {
     }
 
     public int getLoginflag() {
-        return loginflag;
+        return loginflag;//1 0
     }
 
     public void setLoginflag(int loginflag) {

@@ -27,7 +27,10 @@ public class Controller implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch(command){
-            
+            case "Log in":
+                String username = this.view.unInput.getText();
+                String password = this.view.pwInput.getPassword().toString();
+                
         }
     }
     
