@@ -42,9 +42,9 @@ public class Model extends Observable{
         String md5Str = new BigInteger(1, digest).toString(16);
         return md5Str;
     }
-    public void checkUserWhenRegister(String username,String password,String email){
+    public void checkUserWhenRegister(String username){
         dm.initialize();
-        if(jdbcTemplate.checkUserWhenRegister(username,getMD5String(password), email)){
+        if(jdbcTemplate.checkUserWhenRegister(username)){
             dm.setCheckflag(0);
             this.setChanged();
             this.notifyObservers(dm);

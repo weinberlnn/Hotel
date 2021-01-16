@@ -19,7 +19,7 @@ public class DBManager {
     private static final String PASSWORD = "123456";
     Connection conn;
     public DBManager(){
-        
+        establishConnection();
     }
     public void establishConnection(){
         if(conn == null){

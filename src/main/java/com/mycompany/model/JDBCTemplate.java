@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
@@ -34,13 +35,14 @@ public class JDBCTemplate{
         dBManager = new DBManager();
         conn = dBManager.getConnection();
     }
-    public boolean checkUserWhenRegister(String username,String password,String email){
-        String checksql = "SELECT * FROM HOTELUSER WHERE USERNAME=? and PASSWORD=? and USEREMAIL=?";
+    /*
+    * Check username whether be used in database when register
+    */
+    public boolean checkUserWhenRegister(String username){
+        String checksql = "SELECT * FROM HOTELUSER WHERE USERNAME=?";
         try {
             PreparedStatement pst = conn.prepareStatement(checksql);
             pst.setString(1,username);
-            pst.setString(2,password);
-            pst.setString(3,email);
             ResultSet result = pst.executeQuery();
             if(result.next()){
                 return false;
@@ -53,11 +55,22 @@ public class JDBCTemplate{
         }
         return false;
     }
+    /*
+    * Register an account by username,password and email
+    * Userid will be formed automatically
+    */
     public boolean register(String username,String password,String email){
         String registersql = "INSERT INTO HOTELUSER VALUES(?,?,?,?,?)";
+        String checkidsql = "SELECT * FROM HOTELUSER";
         try{
+            int userid = 0;
+            Statement stm = conn.createStatement();
+            ResultSet result = stm.executeQuery(checkidsql);
+            while(result.next()){
+                userid = result.getInt("userid");
+            }
             PreparedStatement pstm = conn.prepareStatement(registersql);
-            pstm.setString(1,null);
+            pstm.setInt(1,userid+1);
             pstm.setString(2,username);
             pstm.setString(3,password);
             pstm.setString(4, email);
@@ -69,6 +82,9 @@ public class JDBCTemplate{
         }
         return false;
     }
+    /*
+    * Login by username and password
+    */
     public User login(String username,String password){
         String loginsql = "SELECT * FROM HOTELUSER WHERE USERNAME=? AND PASSWORD=?";
         try{
@@ -77,7 +93,7 @@ public class JDBCTemplate{
             pstm.setString(2, password);
             ResultSet result = pstm.executeQuery();
             if(result.next()){
-                User user = new User(result.getInt("USERID"),result.getString("USERNAME"),result.getString("PASSWORD"),result.getString("USEREMAIL"),result.getString("USERPICTURE"));
+                User user = new User(result.getInt("USERID"),result.getString("USERNAME"),result.getString("PASSWORD"),result.getString("USEREMAIL"),result.getString("USERSCULPTURE"));
                 return user;
             }
             else{
@@ -88,6 +104,12 @@ public class JDBCTemplate{
         }
         return null;
     }
+    /*
+    * Get some Hotel information by userid.
+    * Use recommend algorithm base on UserCF.
+    * If table LikeItem is empty or the hotel number is lower than 5, it will 
+    * return five hotel which the point is the highest.
+    */
     public ArrayList<Hotel> getHotelInfo(int userid){
         List<LikeItem> likeLists = new ArrayList<>();
 	ArrayList<Hotel> recomLists = new ArrayList<>();
@@ -102,13 +124,13 @@ public class JDBCTemplate{
                 Hotel hotel = new Hotel(result.getInt("HOTELID"),result.getString("HOTELNAME"),result.getDouble("HOTELCOST"),result.getString("HOTELSTYLE"),result.getString("HOTELBREAKFAST"),result.getString("HOTELPICTURE"),result.getInt("HOTELNUMBER"),result.getDouble("HOTELPOINT"),result.getDouble("HOTELSIMILARITY"));
                 hotels.add(hotel);
             }
-            ResultSet result2 = stm.executeQuery(sql);
+            result = stm.executeQuery(sql);
             while(result.next()){
                 User user = new User(result.getInt("userid"),result.getString("username"),result.getString("password"),result.getString("useremail"),result.getString("usersculpture"));
                 users.add(user);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(JDBCTemplate.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 	int[][] curMatrix = new int[hotels.size()+5][hotels.size()+5];
 	int[][] comMatrix = new int[hotels.size()+5][hotels.size()+5];
@@ -128,10 +150,11 @@ public class JDBCTemplate{
             User customer = users.get(m);
             if (customer.getUserid()==userid)
 		continue;
-            String sql2 = "select * from LikeItem where userId =?";
+            String sql2 = "SELECT * FROM LIKEITEM WHERE USERID = ?";
             try{
-                Statement stm = conn.createStatement();
-                ResultSet result = stm.executeQuery(sql2);
+                PreparedStatement pstm = conn.prepareStatement(sql2);
+                pstm.setInt(1, customer.getUserid());
+                ResultSet result = pstm.executeQuery();
                 while(result.next()){
                     LikeItem likeItem = new LikeItem(result.getInt("likeid"),result.getInt("userid"),result.getInt("hotelid"));
                     likeLists.add(likeItem);
@@ -180,10 +203,11 @@ public class JDBCTemplate{
                     int j = hotel.getHotelid();
                     Nij = comMatrix[i][j];
                     Wij = (double)Nij/Math.sqrt(N[i]*N[j]);
-                    String sql4 = "select * from Hotel where pnumber = ?";
+                    String sql4 = "SELECT * FROM HOTEL WHERE HOTELID = ?";
                     try{
-                        Statement stm = conn.createStatement();
-                        ResultSet result = stm.executeQuery(sql4);
+                        PreparedStatement pstm = conn.prepareStatement(sql4);
+                        pstm.setInt(1, j);
+                        ResultSet result = pstm.executeQuery();
                         tmp = new Hotel(result.getInt("HOTELID"),result.getString("HOTELNAME"),result.getDouble("HOTELCOST"),result.getString("HOTELSTYLE"),result.getString("HOTELBREAKFAST"),result.getString("HOTELPICTURE"),result.getInt("HOTELNUMBER"),result.getDouble("HOTELPOINT"),result.getDouble("HOTELSIMILARITY"));
                         tmp.setHotelsimilarity(Wij);
                         if(used[tmp.getHotelid()])
@@ -204,6 +228,10 @@ public class JDBCTemplate{
 	}
 	return recomLists;
     }
+    /*
+    * Select some hotel by hotelstyle such as 'double bed' or 'single bed'.
+    * The output will be sorted by HotelPoint
+    */
     public ArrayList<Hotel> getHotelInfoByStyle(String hotelstyle){
         String hotelinfosql = "SELECT * FROM HOTEL WHERE HOTELSTYLE = ?";
         ArrayList<Hotel> hotelcollection = new ArrayList<>();
@@ -215,12 +243,26 @@ public class JDBCTemplate{
                  Hotel hotel = new Hotel(result.getInt("HOTELID"),result.getString("HOTELNAME"),result.getDouble("HOTELCOST"),result.getString("HOTELSTYLE"),result.getString("HOTELBREAKFAST"),result.getString("HOTELPICTURE"),result.getInt("HOTELNUMBER"),result.getDouble("HOTELPOINT"),result.getDouble("HOTELSIMILARITY"));
                  hotelcollection.add(hotel);
             }
+            Collections.sort(hotelcollection, new Comparator< Hotel >() {
+
+                @Override
+                public int compare(Hotel lhs, Hotel rhs) {
+                    int point1 = (int)(lhs.getHotelpoint()*10);
+                    int point2 = (int)(rhs.getHotelpoint()*10);
+                    return point2-point1;
+                }
+            });
             return hotelcollection;
         }catch(SQLException ex){
             ex.printStackTrace();
         }
         return null;
     }
+    /*
+    * Select some hotels by hotelbreakfast such as 'yes' or 'no' which means 
+    * this hotel will have breakfast or not.
+    * The output will be sorted by HotelPoint.
+    */
     public ArrayList<Hotel> getHotelInfoByBreakfast(String hotelbreakfast){
         String hotelinfosql = "SELECT * FROM HOTEL WHERE HOTELBREAKFAST = ?";
         ArrayList<Hotel> hotelcollection = new ArrayList<>();
@@ -232,12 +274,24 @@ public class JDBCTemplate{
                  Hotel hotel = new Hotel(result.getInt("HOTELID"),result.getString("HOTELNAME"),result.getDouble("HOTELCOST"),result.getString("HOTELSTYLE"),result.getString("HOTELBREAKFAST"),result.getString("HOTELPICTURE"),result.getInt("HOTELNUMBER"),result.getDouble("HOTELPOINT"),result.getDouble("HOTELSIMILARITY"));
                  hotelcollection.add(hotel);
             }
+            Collections.sort(hotelcollection, new Comparator< Hotel >() {
+
+                @Override
+                public int compare(Hotel lhs, Hotel rhs) {
+                    int point1 = (int)(lhs.getHotelpoint()*10);
+                    int point2 = (int)(rhs.getHotelpoint()*10);
+                    return point2-point1;
+                }
+            });
             return hotelcollection;
         }catch(SQLException ex){
             ex.printStackTrace();
         }
         return null;
     }
+    /*
+    * Get some room information under the hotel.
+    */
     public ArrayList<Room> getRoomInfo(int hotelid){
         String roominfosql = "SELECT * FROM HOTELROOM WHERE HOTELID = ?";
         ArrayList<Room> roomcollection = new ArrayList<>();
@@ -255,6 +309,10 @@ public class JDBCTemplate{
         }
         return null;
     }
+    /*
+    * Booking the hotel's room by roomid and roomnumber
+    * If roomnumber is lower than zero after booking, the database will rollback
+    */
     public boolean booking(int roomid,int roomnumber){
         String existroomsql = "SELECT * FROM HOTELROOM WHERE ROOMID = ?";
         String updateroomsql = "UPDATE HOTELROOM SET ROOOMNUMBER =? WHERE ROOMID = ?";
@@ -272,6 +330,7 @@ public class JDBCTemplate{
                 throw new RuntimeException("room is not enough");
             }
             else{
+                conn.setAutoCommit(true);
                 return true;
             }
         }catch(SQLException ex){
@@ -288,6 +347,9 @@ public class JDBCTemplate{
         }
         return false;
     }
+    /*
+    * Form the order information and insert it to the database
+    */
     public void formOrder(int userid,String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
         String formordersql = "INSERT INTO HOTELORDER VALUES(?,?,?,?,?,?,?,?)";
         try{
@@ -305,6 +367,9 @@ public class JDBCTemplate{
             ex.printStackTrace();
         }
     }
+    /*
+    * Get user's order by userid
+    */
     public ArrayList<Order> getOrderInfo(int userid){
         String orderinfosql = "SELECT * FROM HOTELORDER WHERE USERID = ?";
         ArrayList<Order> ordercollection = new ArrayList<>();
@@ -321,6 +386,9 @@ public class JDBCTemplate{
         }
         return null;
     }
+    /*
+    * Pay method which probably can use AliPay API.
+    */
     public void pay(){
         
     }
