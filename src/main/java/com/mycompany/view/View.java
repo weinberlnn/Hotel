@@ -207,6 +207,8 @@ public class View extends JFrame implements Observer{
         this.add(RegisterPanel3);
         this.add(RegisterPanel4);
         this.add(RegisterPanel5);
+        this.setSize(1200, 1000);
+        this.setLocationRelativeTo(null);
         this.revalidate();
         this.repaint();
         
@@ -220,6 +222,8 @@ public class View extends JFrame implements Observer{
        this.setLayout(new GridLayout(1,1));
        
        this.add(orderlistScroll);
+       this.setSize(1200, 1000);
+       this.setLocationRelativeTo(null);
        this.setVisible(true);
     }
     
@@ -230,6 +234,8 @@ public class View extends JFrame implements Observer{
         
         this.setLayout(new GridLayout(1,1));
         this.add(HotellistScroll);
+        this.setSize(1200, 1000);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
     
@@ -391,32 +397,62 @@ public class View extends JFrame implements Observer{
         this.registerButton.addActionListener(listener);
         this.ButtonforRegister.addActionListener(listener);
         this.Back.addActionListener(listener);
-        this.jMenuItem1.addActionListener(listener);//change password
-        this.jMenuItem2.addActionListener(listener);//Exit
-        this.jMenuItem3.addActionListener(listener);//Collection
-        this.jMenuItem4.addActionListener(listener);//Order
-        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
-        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
-        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
-        this.Hotellistbutton.addActionListener(listener);//Like
-        this.Hotellistbu1.addActionListener(listener);//Buy
-        this.orderlistbu1.addActionListener(listener);//Delete
+//        this.jMenuItem1.addActionListener(listener);//change password
+//        this.jMenuItem2.addActionListener(listener);//Exit
+//        this.jMenuItem3.addActionListener(listener);//Collection
+//        this.jMenuItem4.addActionListener(listener);//Order
+//        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
+//        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
+//        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
+//        this.Hotellistbutton.addActionListener(listener);//Like
+//        this.Hotellistbu1.addActionListener(listener);//Buy
+//        this.orderlistbu1.addActionListener(listener);//Delete
     }
      
      
      
+    @Override
      public void update(Observable o, Object arg){
           DataMessage data = (DataMessage) arg;
-          if (data.getLoginflag() == 0) { // If loginFlage is false, then ask the user to input again.
+          System.out.println("update going");
+          System.out.println("Loginfalg: "+data.getLoginflag());
+          System.out.println("registerflag: "+data.getRegisterflag());
+          System.out.println("checkflag: "+data.getCheckflag());
+          System.out.println("gethotelinfoflag: "+data.getGethotelinfoflag());
+          
+        if (data.getLoginflag() == 0) { // If loginFlage is false, then ask the user to input again.
+            System.out.println("wrong");
             this.unInput.setText("");
             this.pwInput.setText("");
-            JOptionPane.showMessageDialog(null,"Invalid username or password.");
+        }
+        if(data.getGethotelinfoflag()== 1 ){
             
-        } else if (!this.Registerstarted) { // If the game has not started, then start the game.
-            this.Register(); // Change the interface of the frame.
-            this.Registerstarted = true;
-            
-        } 
+            System.out.println(" got hotelinfoflag");
+        }
+        if(data.getRegisterflag() == 1)
+        {
+            System.out.println(" got registerflag");
+        }
+        if(data.getCheckflag() == 1)
+        {
+            System.out.println(" got checkflag");
+        }
+        if(data.getGetorderinfoflag() == 1)
+        {
+            System.out.println(" got orderinfoflag");
+        }
+        if(data.getGetroominfoflag() == 1)
+        {
+             System.out.println(" got roominfoflag");
+        }
+        if(data.getGetuserinfoflag() == 1)
+        {
+             System.out.println(" got userinfoflag");
+        }
+        if(data.getPayflag() == 1)
+        {
+            System.out.println(" got payflag");
+        }
 //        else if (data.quitFlag) { // If user quits the game, display user's current score.
 //            this.quitGame(data.currentScore);
 //        } else { // Otherwise, update a new question for the user.

@@ -32,7 +32,9 @@ public class Controller implements ActionListener{
                 String loginpassword = new String(this.view.pwInput.getPassword());
                 System.out.println(loginpassword);
                 if(this.model.login(loginusername, loginpassword)){
+                    this.model.getHotelInfo();
                     
+                    this.view.Hotelinformation();
                 }
                 break;
             case "Get Registe":

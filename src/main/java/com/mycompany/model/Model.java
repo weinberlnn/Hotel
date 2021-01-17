@@ -66,13 +66,17 @@ public class Model extends Observable{
             user = jdbcTemplate.login(username, password);
             dm.setLoginflag(1);
             this.setChanged();
+           
             this.notifyObservers(dm);
+            
             return true;
         }
         else{
             dm.setLoginflag(0);
             this.setChanged();
+            
             this.notifyObservers(dm);
+            
             return false;
         }
     }
