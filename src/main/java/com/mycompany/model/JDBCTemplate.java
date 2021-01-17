@@ -104,6 +104,17 @@ public class JDBCTemplate{
         }
         return null;
     }
+    public void modifyPassword(String username,String password){
+        String modifypasswordsql = "UPDATE HOTELUSER SET PASSWORD = ? WHERE USERNAME = ?";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(modifypasswordsql);
+            pstm.setString(1, password);
+            pstm.setString(2, username);
+            pstm.executeUpdate();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
     /*
     * Get some Hotel information by userid.
     * Use recommend algorithm base on UserCF.
@@ -289,6 +300,14 @@ public class JDBCTemplate{
         }
         return null;
     }
+    public ArrayList<Hotel> selectHotelInfo(String hotelstyle,String hotelbreakfast){
+        ArrayList<Hotel> style = this.getHotelInfoByStyle(hotelstyle);
+        ArrayList<Hotel> breakfast = this.getHotelInfoByBreakfast(hotelbreakfast);
+        for(Hotel hotel : style){
+            breakfast.add(hotel);
+        }
+        return breakfast;
+    }
     /*
     * Get some room information under the hotel.
     */
@@ -391,5 +410,38 @@ public class JDBCTemplate{
     */
     public void pay(){
         
+    }
+    public void logout(){
+        dBManager.closeConnection();
+    }
+    public void addLikeItem(int userid,int hotelid){
+        String addlikeitemsql = "INSERT INTO LIKEITEM VALUES(?,?,?)";
+        String selectitemsql = "SELECT * FROM LIKEITEM";
+        LikeItem like = null;
+        try{
+            Statement stm = conn.createStatement();
+            ResultSet result = stm.executeQuery(selectitemsql);
+            while(result.next()){
+                like = new LikeItem(result.getInt("likeid"),result.getInt("userid"),result.getInt("hotelid"));
+            }
+            PreparedStatement pstm = conn.prepareStatement(addlikeitemsql);
+            pstm.setInt(1, like.getLikeid()+1);
+            pstm.setInt(2, userid);
+            pstm.setInt(3, hotelid);
+            pstm.executeUpdate();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+    public void deleteLikeItem(int userid,int hotelid){
+        String deletelikeitemsql = "DELETE FROM LIKEITEM WHERE USERID = ? AND HOTELID = ?";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(deletelikeitemsql);
+            pstm.setInt(1,userid);
+            pstm.setInt(2,hotelid);
+            pstm.executeUpdate();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
     }
 }

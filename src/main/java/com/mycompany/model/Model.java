@@ -42,17 +42,19 @@ public class Model extends Observable{
         String md5Str = new BigInteger(1, digest).toString(16);
         return md5Str;
     }
-    public void checkUserWhenRegister(String username){
+    public boolean checkUserWhenRegister(String username){
         dm.initialize();
         if(jdbcTemplate.checkUserWhenRegister(username)){
             dm.setCheckflag(0);
             this.setChanged();
             this.notifyObservers(dm);
+            return true;
         }
         else{
             dm.setCheckflag(1);
             this.setChanged();
             this.notifyObservers(dm);
+            return false;
         }
     }
     public void register(String username,String password,String email){
@@ -72,18 +74,27 @@ public class Model extends Observable{
             this.notifyObservers(dm);
         }
     }
+    public void modifyPassword(String password){
+        jdbcTemplate.modifyPassword(user.getUsername(), password);
+    }
     public void getUserInfo(){
+        dm.initialize();
+        dm.setSource(user);
+        dm.setGetuserinfoflag(1);
+        this.setChanged();
+        this.notifyObservers(dm);
     }
     public void logout(){
+        jdbcTemplate.logout();
         dm.initialize();
         user = null;
         dm.setLoginflag(0);
         this.setChanged();
         this.notifyObservers(dm);
     }
-    public void getHotelInfo(int userid){
+    public void getHotelInfo(){
         dm.initialize();
-        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfo(userid);
+        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfo(user.getUserid());
         if(hotelcollection!=null){
             dm.setGethotelinfoflag(1);
             dm.setSource(hotelcollection);
@@ -96,24 +107,9 @@ public class Model extends Observable{
             this.notifyObservers(dm);
         }
     }
-    public void getHotelInfoByStyle(String hotelstyle){
+    public void getHotelInfoByStyleandBreakfast(String hotelstyle,String hotelbreakfast){
         dm.initialize();
-        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfoByStyle(hotelstyle);
-        if(hotelcollection!=null){
-            dm.setGethotelinfoflag(1);
-            dm.setSource(hotelcollection);
-            this.setChanged();
-            this.notifyObservers(dm);
-        }
-        else{
-            dm.setGethotelinfoflag(0);
-            this.setChanged();
-            this.notifyObservers(dm);
-        }
-    }
-    public void getHotelInfoByBreakfast(String hotelbreakfast){
-        dm.initialize();
-        ArrayList<Hotel> hotelcollection = jdbcTemplate.getHotelInfoByStyle(hotelbreakfast);
+        ArrayList<Hotel> hotelcollection = jdbcTemplate.selectHotelInfo(hotelstyle,hotelbreakfast);
         if(hotelcollection!=null){
             dm.setGethotelinfoflag(1);
             dm.setSource(hotelcollection);
@@ -155,12 +151,12 @@ public class Model extends Observable{
             
         }
     }
-    public void formOrder(int userid,String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
-        jdbcTemplate.formOrder(userid, usertruename, userphone, bookday, totalcost, hotelname, roomstyle);
+    public void formOrder(String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
+        jdbcTemplate.formOrder(user.getUserid(), usertruename, userphone, bookday, totalcost, hotelname, roomstyle);
     }
-    public void getOrderInfo(int userid){
+    public void getOrderInfo(){
         dm.initialize();
-        ArrayList<Order> ordercollection = jdbcTemplate.getOrderInfo(userid);
+        ArrayList<Order> ordercollection = jdbcTemplate.getOrderInfo(user.getUserid());
         if(ordercollection!=null){
             dm.setGetorderinfoflag(1);
             dm.setSource(ordercollection);
@@ -178,5 +174,11 @@ public class Model extends Observable{
         dm.setPayflag(1);
         this.setChanged();
         this.notifyObservers(dm);
+    }
+    public void addLikeItem(int hotelid){
+        jdbcTemplate.addLikeItem(user.getUserid(), hotelid);
+    }
+    public void deleteLikeItem(int hotelid){
+        jdbcTemplate.deleteLikeItem(user.getUserid(), hotelid);
     }
 }

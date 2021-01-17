@@ -18,6 +18,7 @@ public class DataMessage {
     private int getorderinfoflag;
     private int payflag;
     private int roomexistflag;
+    private int getuserinfoflag;
     private Object source;
     public DataMessage(){
         registerflag = 0;
@@ -28,6 +29,7 @@ public class DataMessage {
         getorderinfoflag=0;
         payflag=0;
         roomexistflag=0;
+        getuserinfoflag=0;
         source = null;
     }
 
@@ -102,6 +104,15 @@ public class DataMessage {
     public void setGetorderinfoflag(int getorderinfoflag) {
         this.getorderinfoflag = getorderinfoflag;
     }
+
+    public int getGetuserinfoflag() {
+        return getuserinfoflag;
+    }
+
+    public void setGetuserinfoflag(int getuserinfoflag) {
+        this.getuserinfoflag = getuserinfoflag;
+    }
+    
     public void initialize(){
         registerflag = 0;
         loginflag = 0;
@@ -111,6 +122,7 @@ public class DataMessage {
         getorderinfoflag=0;
         payflag=0;
         roomexistflag=0;
+        getuserinfoflag=0;
         source = null;
     }
 }

@@ -28,9 +28,17 @@ public class Controller implements ActionListener{
         String command = e.getActionCommand();
         switch(command){
             case "Log in":
-                String username = this.view.unInput.getText();
-                String password = this.view.pwInput.getPassword().toString();
-                
+                String loginusername = this.view.unInput.getText();
+                String loginpassword = this.view.pwInput.getPassword().toString();
+                this.model.login(loginusername, loginpassword);
+                break;
+            case "Get Registe":
+                String registerusername = this.view.registerunInput.getText();
+                String registerpassword = this.view.registerpwInput1.getPassword().toString();
+                String registeremail = this.view.EmailInput.getText();
+                if(this.model.checkUserWhenRegister(registerusername))
+                    this.model.register(registerusername, registerpassword, registeremail);
+            
         }
     }
     
