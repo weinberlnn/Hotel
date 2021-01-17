@@ -14,6 +14,8 @@ import com.mycompany.controller.Controller;
 public class StartPage {
    public static void main(String[] args){
         View view = new View();
-        view.Hotelinformation();
+        Model model = new Model();
+        Controller controller = new Controller(view,model);
+        model.addObserver(view);
    }
 }

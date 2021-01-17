@@ -60,18 +60,20 @@ public class Model extends Observable{
     public void register(String username,String password,String email){
         jdbcTemplate.register(username,getMD5String(password), email);
     }
-    public void login(String username,String password){
+    public boolean login(String username,String password){
         dm.initialize();
-        if(jdbcTemplate.login(username,getMD5String(password))!=null){
-            user = jdbcTemplate.login(username, getMD5String(password));
+        if(jdbcTemplate.login(username,password)!=null){
+            user = jdbcTemplate.login(username, password);
             dm.setLoginflag(1);
             this.setChanged();
             this.notifyObservers(dm);
+            return true;
         }
         else{
             dm.setLoginflag(0);
             this.setChanged();
             this.notifyObservers(dm);
+            return false;
         }
     }
     public void modifyPassword(String password){

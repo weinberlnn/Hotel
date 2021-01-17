@@ -424,9 +424,6 @@ public class View extends JFrame implements Observer{
 //        }
      }
     
-    public void addActionListener(Controller aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     
 

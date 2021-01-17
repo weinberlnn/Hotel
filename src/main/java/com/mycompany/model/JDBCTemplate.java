@@ -101,8 +101,9 @@ public class JDBCTemplate{
             }
         }catch(SQLException ex){
             ex.printStackTrace();
+            return null;
         }
-        return null;
+        
     }
     public void modifyPassword(String username,String password){
         String modifypasswordsql = "UPDATE HOTELUSER SET PASSWORD = ? WHERE USERNAME = ?";
