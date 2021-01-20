@@ -50,12 +50,10 @@ public class View extends JFrame implements Observer{
      private JPanel RegisterPanel3 = new JPanel();
      private JPanel RegisterPanel4 = new JPanel();
      private JPanel RegisterPanel5 = new JPanel();
-     private JPanel RegisterPanel6 = new JPanel();
-     private JLabel Regusername = new JLabel("    Username:     ");
-     
-     private JLabel Regpassword = new JLabel("    Password:     ");
+     private JLabel Regusername = new JLabel("Username: ");
+     private JLabel Regpassword = new JLabel("Password: ");
      private JLabel Chepassword = new JLabel("Confirm Password: ");
-     private JLabel Email = new JLabel("      Email:       ");
+     private JLabel Email = new JLabel("Email: ");
      public JTextField registerunInput = new JTextField(19);
      public JPasswordField registerpwInput1 = new JPasswordField(19);
      public JPasswordField registerpwInput2 = new JPasswordField(19);
@@ -104,18 +102,8 @@ public class View extends JFrame implements Observer{
     private JRadioButton Hotellistbutton ;//like
     private JButton Hotellistbu1 ;//buy
     
-    //detail hotel info
-    private JPanel detailpanel1;
-    private JPanel detailpanel2;
-    private JLabel detaillabel1;
-    private JLabel detaillabel2;
-    private JLabel detaillabel3;
-    private JLabel detaillabel4;
-    private JLabel detaillabel5;
-    private JLabel detaillabel6;
-    private JButton detailbutton;
-    
-    
+    //modify
+    private JPanel modify;
     
     public View(){
         View1();
@@ -179,43 +167,35 @@ public class View extends JFrame implements Observer{
     public void Register(){
         
         
-        this.setLayout(new GridLayout(6,1));
+        this.setLayout(new GridLayout(5,1));
         
         
         JLabel tempj = new JLabel("Hotel Era Register System");
         tempj.setFont(new Font("宋体",Font.BOLD,20));
         tempj.setBounds(180,0,300,80);
         
-        RegisterPanel6 = new JPanel((new FlowLayout(FlowLayout.CENTER)));
-        RegisterPanel6.add(tempj);
-        
-        RegisterPanel1 = new JPanel((new FlowLayout(FlowLayout.CENTER)));
-        Regusername.setFont(new Font("宋体",Font.BOLD,20));
+        RegisterPanel1 = new JPanel((new FlowLayout(FlowLayout.LEFT)));
         RegisterPanel1.add(Regusername);
         RegisterPanel1.add(registerunInput);
         
         
-        RegisterPanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        Regpassword.setFont(new Font("宋体",Font.BOLD,20));
+        RegisterPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         RegisterPanel2.add(Regpassword);
         RegisterPanel2.add(registerpwInput1);
         
         
-        RegisterPanel3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        Chepassword.setFont(new Font("宋体",Font.BOLD,20));
+        RegisterPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         RegisterPanel3.add(Chepassword);
         RegisterPanel3.add(registerpwInput2);
         
         
-        RegisterPanel4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        Email.setFont(new Font("宋体",Font.BOLD,20));
+        RegisterPanel4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         RegisterPanel4.add(Email);
         RegisterPanel4.add(EmailInput);
        
         
         
-        RegisterPanel5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        ButtonforRegister.setFont(new Font("宋体",Font.BOLD,20));
+        RegisterPanel5 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         RegisterPanel5.add(ButtonforRegister);
 //        RegisterPanel5.add(Back);
         
@@ -227,7 +207,6 @@ public class View extends JFrame implements Observer{
         RegisterPanel3.setVisible(true);
         RegisterPanel4.setVisible(true);
         RegisterPanel5.setVisible(true);
-        this.add(RegisterPanel6);
         this.add(RegisterPanel1);
         this.add(RegisterPanel2);
         this.add(RegisterPanel3);
@@ -265,42 +244,11 @@ public class View extends JFrame implements Observer{
         this.setVisible(true);
     }
     
-    public void detailHotelinfo(){
-         this.getContentPane().removeAll();
-         
-         detailHotel();
-         this.setLayout(new GridLayout(2,1));
-         this.add(detailpanel1);
-         this.add(detailpanel2);
-         this.setSize(1200, 1000);
-         this.setLocationRelativeTo(null);
-         this.setVisible(true);
+    public void modify(){
+        modify = new JPanel();
+        modify.setBounds(0,0,0,20);
     }
     
-    private void detailHotel(){
-        
-        detailpanel1 = new JPanel();
-        detailpanel2 = new JPanel();
-        detaillabel1 = new JLabel("HotelName: ");
-        detaillabel2 = new JLabel(" HuaMeiDa ");
-        detaillabel3 = new JLabel("HotelPrice: ");
-        detaillabel4 = new JLabel(" $99 ");
-        detaillabel5 = new JLabel("HotelStyle: ");
-        detaillabel6 = new JLabel(" doubleroom/breakfast ");
-        detailbutton = new JButton("Back to Hotelinfo");
-        
-        detailpanel1.setBackground(Color.PINK);
-        detailpanel2.setLayout(new GridLayout(4,2));
-        detailpanel2.add(detaillabel1);
-        detailpanel2.add(detaillabel2);
-        detailpanel2.add(detaillabel3);
-        detailpanel2.add(detaillabel4);
-        detailpanel2.add(detaillabel5);
-        detailpanel2.add(detaillabel6);
-        detailpanel2.add(detailbutton);
-        
-        
-    }
     private void NavigateBar(){
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -334,7 +282,7 @@ public class View extends JFrame implements Observer{
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\修改密码.png")); // NOI18N
         jMenuItem1.setText("Change password");
-//        jMenu3.add(jMenuItem1);
+        jMenu3.add(jMenuItem1);
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\退出.png")); // NOI18N
         jMenuItem2.setText("Exit");
@@ -454,16 +402,16 @@ public class View extends JFrame implements Observer{
         this.registerButton.addActionListener(listener);
         this.ButtonforRegister.addActionListener(listener);
         this.Back.addActionListener(listener);
-        this.jMenuItem1.addActionListener(listener);//change password
-        this.jMenuItem2.addActionListener(listener);//Exit
-        this.jMenuItem3.addActionListener(listener);//Collection
-        this.jMenuItem4.addActionListener(listener);//Order
-        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
-        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
-        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
-        this.Hotellistbutton.addActionListener(listener);//Like
-        this.Hotellistbu1.addActionListener(listener);//Buy
-        this.orderlistbu1.addActionListener(listener);//Delete
+//        this.jMenuItem1.addActionListener(listener);//change password
+//        this.jMenuItem2.addActionListener(listener);//Exit
+//        this.jMenuItem3.addActionListener(listener);//Collection
+//        this.jMenuItem4.addActionListener(listener);//Order
+//        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
+//        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
+//        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
+//        this.Hotellistbutton.addActionListener(listener);//Like
+//        this.Hotellistbu1.addActionListener(listener);//Buy
+//        this.orderlistbu1.addActionListener(listener);//Delete
     }
      
      
