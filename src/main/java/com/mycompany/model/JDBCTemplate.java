@@ -73,7 +73,7 @@ public class JDBCTemplate{
             pstm.setInt(1,userid+1);
             pstm.setString(2,username);
             pstm.setString(3,password);
-            pstm.setString(4, email);
+            pstm.setString(4,email);
             pstm.setString(5,null);
             pstm.executeUpdate();
             return true;

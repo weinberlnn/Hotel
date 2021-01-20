@@ -41,8 +41,17 @@ public class Controller implements ActionListener{
                 String registerusername = this.view.registerunInput.getText();
                 String registerpassword = new String(this.view.registerpwInput1.getPassword());
                 String registeremail = this.view.EmailInput.getText();
-                if(this.model.checkUserWhenRegister(registerusername))
+                System.out.println(this.model.checkUserWhenRegister(registerusername));
+                if(!this.model.checkUserWhenRegister(registerusername))
+                {
+                    System.out.println(" there is no such user!");
                     this.model.register(registerusername, registerpassword, registeremail);
+                    
+                }
+                    
+                
+            case "Register":
+                this.view.Register();
             
         }
     }

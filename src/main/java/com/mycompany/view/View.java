@@ -106,7 +106,12 @@ public class View extends JFrame implements Observer{
     private JPanel modify;
     
     public View(){
+        View1();
+    }
+    
+    public void View1(){
         
+        this.getContentPane().removeAll();
         this.setLayout(new GridLayout(3,1));
         
         JLabel tempj = new JLabel("Hotel Era Login System");
@@ -192,7 +197,7 @@ public class View extends JFrame implements Observer{
         
         RegisterPanel5 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         RegisterPanel5.add(ButtonforRegister);
-        RegisterPanel5.add(Back);
+//        RegisterPanel5.add(Back);
         
         
         
@@ -432,6 +437,7 @@ public class View extends JFrame implements Observer{
         if(data.getRegisterflag() == 1)
         {
             System.out.println(" got registerflag");
+            View1();
         }
         if(data.getCheckflag() == 1)
         {
