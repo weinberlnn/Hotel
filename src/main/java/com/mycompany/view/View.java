@@ -16,8 +16,6 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
@@ -118,12 +116,10 @@ public class View extends JFrame implements Observer{
     private JLabel detaillabel4;
     private JLabel detaillabel5;
     private JLabel detaillabel6;
-    private JButton detailbutton = new JButton("Back to Hotelinfo");
-    private JButton detailbuttonbuy = new JButton("BUY");
+    private JButton detailbutton;
     
-    //hotel
-    ArrayList<Hotel> hotelinfo;
-    Hotel hotel;
+    
+    
     public View(){
         View1();
     }
@@ -263,6 +259,10 @@ public class View extends JFrame implements Observer{
        OrderList();
        this.setLayout(new GridLayout(1,1));
        this.getContentPane().removeAll();
+       
+       
+       
+       
        this.add(orderlistScroll);
        this.setSize(1200, 1000);
        this.setLocationRelativeTo(null);
@@ -272,9 +272,9 @@ public class View extends JFrame implements Observer{
     }
     
     public void Hotelinformation(){
+        HotelList(OrderNumber);
         this.getContentPane().removeAll();
         NavigateBar();
-        HotelList(hotelinfo);
         this.setLayout(new GridLayout(1,1));
         
         HotellistScroll.setVisible(true);
@@ -285,10 +285,10 @@ public class View extends JFrame implements Observer{
         this.repaint();
     }
     
-    public void detailHotelinfo(Hotel detail){
+    public void detailHotelinfo(){
          this.getContentPane().removeAll();
          
-         detailHotel(detail);
+         detailHotel();
          this.setLayout(new GridLayout(2,1));
          this.add(detailpanel1);
          this.add(detailpanel2);
@@ -300,7 +300,7 @@ public class View extends JFrame implements Observer{
     public void collection(){
         this.getContentPane().removeAll();
         NavigateBar();
-        HotelList(hotelinfo);
+        HotelList(OrderNumber/2);
         
         this.setLayout(new GridLayout(1,1));
         this.add(HotellistScroll);
@@ -312,42 +312,28 @@ public class View extends JFrame implements Observer{
     }
     
     
-    private void detailHotel(Hotel detail){
+    private void detailHotel(){
         
         detailpanel1 = new JPanel();
         detailpanel2 = new JPanel();
-        detaillabel1 = new JLabel("HotelName: "+detail.getHotelname());
-        
-        detaillabel3 = new JLabel("HotelPrice: "+detail.getHotelcost());
-        
-        detaillabel5 = new JLabel("HotelStyle: "+detail.getHotelstyle());
-        
-        
-        
-//        detailbutton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent arg0) {
-//                
-//                Hotelinformation();
-//            }
-//        });
-//        detailbuttonbuy.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent arg0) {
-//                JOptionPane.showMessageDialog(null,"Buy success","success",JOptionPane.OK_OPTION);
-//            }
-//        });
+        detaillabel1 = new JLabel("HotelName: ");
+        detaillabel2 = new JLabel(" HuaMeiDa ");
+        detaillabel3 = new JLabel("HotelPrice: ");
+        detaillabel4 = new JLabel(" $99 ");
+        detaillabel5 = new JLabel("HotelStyle: ");
+        detaillabel6 = new JLabel(" doubleroom/breakfast ");
+        detailbutton = new JButton("Back to Hotelinfo");
         
         detailpanel1.setBackground(Color.PINK);
-        detailpanel2.setLayout(new GridLayout(5,1));
+        detailpanel2.setLayout(new GridLayout(4,2));
         detailpanel2.add(detaillabel1);
-        
+        detailpanel2.add(detaillabel2);
         detailpanel2.add(detaillabel3);
-        
+        detailpanel2.add(detaillabel4);
         detailpanel2.add(detaillabel5);
-        
+        detailpanel2.add(detaillabel6);
         detailpanel2.add(detailbutton);
-        detailpanel2.add(detailbuttonbuy);
+        
         
     }
     private void NavigateBar(){
@@ -411,11 +397,10 @@ public class View extends JFrame implements Observer{
 //        this.repaint();
     }
     
-    private void HotelList(ArrayList<Hotel> hotelinfo){
-        
-        Hotellistpanel1.setLayout(new GridLayout(hotelinfo.size()/2,4,10,10));
+    private void HotelList(int OrderNumber){
+        Hotellistpanel1.setLayout(new GridLayout(OrderNumber/2,4,10,10));
         orderlistpanel1.setBounds(new Rectangle(25,25,25,25));
-        for(int i=0;i<hotelinfo.size();i++)
+        for(int i=0;i<OrderNumber;i++)
         {
             Hotellistpanel = new JPanel();
             Hotellistpanel.setLayout(new GridLayout(2,1));
@@ -425,15 +410,14 @@ public class View extends JFrame implements Observer{
             Hotellistpanel_2.setLayout(new GridLayout(2,1));
             Hotellistpanel_3 = new JPanel();
             Hotellistpanel_4 = new JPanel();
-            Hotellistlabel = new JLabel("HotelName: "+hotelinfo.get(i).getHotelname());
+            Hotellistlabel = new JLabel("HotelName: "+i);
             Hotellistbutton = new JRadioButton("like");
-            hotel = hotelinfo.get(i);
+            
             Hotellistbu1 = new JButton("Detail");
             Hotellistbu1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
-                    detailHotelinfo(hotel);
+                    detailHotelinfo();
                 }
             
             });
@@ -474,8 +458,7 @@ public class View extends JFrame implements Observer{
         this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
         this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
         this.Hotellistbutton.addActionListener(listener);//Like
-        this.detailbutton.addActionListener(listener);//detail to hotelinfo
-        this.detailbuttonbuy.addActionListener(listener);//Buy
+        
         this.orderlistbu1.addActionListener(listener);//Delete
     }
      
@@ -496,7 +479,8 @@ public class View extends JFrame implements Observer{
             this.pwInput.setText("");
         }
         if(data.getGethotelinfoflag()== 1 ){
-            hotelinfo = (ArrayList)data.getSource();
+           
+            
             System.out.println(" got hotelinfoflag");
         }
         if(data.getRegisterflag() == 1)
