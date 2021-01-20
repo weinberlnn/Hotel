@@ -411,6 +411,7 @@ public class JDBCTemplate{
         ArrayList<Order> ordercollection = new ArrayList<>();
         try{
             PreparedStatement pstm = conn.prepareStatement(orderinfosql);
+            pstm.setInt(1,userid);
             ResultSet result = pstm.executeQuery();
             while(result.next()){
                 Order order = new Order(result.getInt("orderid"),result.getInt("userid"),result.getString("usertruename"),result.getString("userphone"),result.getInt("bookday"),result.getDouble("totalcost"),result.getString("hotelname"),result.getString("roomstyle"),result.getString("orderstatus"));

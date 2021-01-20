@@ -46,7 +46,7 @@ public class Controller implements ActionListener{
                 }
                 else{
                     this.model.register(registerusername, registerpassword, registeremail);
-                    
+                    this.view.View1();
                 }
                 break;
             case "Register":
@@ -62,20 +62,24 @@ public class Controller implements ActionListener{
             case "Logout":
                 this.model.logout();
             //Get Order List;
-            case "Get Order":
+            case "My OrderLIst":
                 this.model.getOrderInfo();
+                this.view.Orderinformation();
                 break;
             case "Cancel Order":
                 int orderid = 0;
                 this.model.cancelOrder(orderid);
                 break;
             //Order List View that back to HotelList;
-            case "Back":
+            case "Back to Hotelinfo":
+//                this.view.HotellistScroll.removeAll();
                 this.model.getHotelInfo();
+                this.view.Hotelinformation();
                 break;
             case "RoomInfo":
                 int hotelid = 0;
                 this.model.getRoomInfo(hotelid);
+                this.view.Roominformation();
                 break;
             //Room List View that back to HotelList;
             case "Back2":
