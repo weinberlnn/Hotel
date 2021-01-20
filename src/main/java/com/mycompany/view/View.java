@@ -7,12 +7,14 @@ package com.mycompany.view;
 
 import com.mycompany.controller.Controller;
 import com.mycompany.entity.DataMessage;
+import com.mycompany.entity.Hotel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -39,10 +41,11 @@ public class View extends JFrame implements Observer{
     private JPanel LoginPanel4 = new JPanel();
     private JLabel username = new JLabel("Username: ");
     private JLabel password = new JLabel("Password: ");
+    public JLabel tempk = new JLabel("Hotel Era Login System");
     public JTextField unInput = new JTextField(19);
     public JPasswordField pwInput = new JPasswordField(19);
-    private JButton registerButton = new JButton("Register");
-    private JButton loginButton = new JButton("Log in");
+    public JButton registerButton = new JButton("Register");
+    public JButton loginButton = new JButton("Log in");
     
     //Register page
      private JPanel RegisterPanel1 = new JPanel();
@@ -52,7 +55,7 @@ public class View extends JFrame implements Observer{
      private JPanel RegisterPanel5 = new JPanel();
      private JPanel RegisterPanel6 = new JPanel();
      private JLabel Regusername = new JLabel("    Username:     ");
-     
+     public JLabel tempj = new JLabel("Hotel Era Register System");
      private JLabel Regpassword = new JLabel("    Password:     ");
      private JLabel Chepassword = new JLabel("Confirm Password: ");
      private JLabel Email = new JLabel("      Email:       ");
@@ -60,7 +63,7 @@ public class View extends JFrame implements Observer{
      public JPasswordField registerpwInput1 = new JPasswordField(19);
      public JPasswordField registerpwInput2 = new JPasswordField(19);
      public JTextField EmailInput = new JTextField(19);
-     private JButton ButtonforRegister = new JButton("Get Registe");
+     public JButton ButtonforRegister = new JButton("Get Registe");
      private JButton Back = new JButton("Back");
      
      private boolean Registerstarted = false;
@@ -75,34 +78,34 @@ public class View extends JFrame implements Observer{
     private JButton orderlistbu1 = new JButton("Delete");
     
     //NavigateBar
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3;
+    private javax.swing.JMenu jMenu1 = new javax.swing.JMenu();
+    private javax.swing.JMenu jMenu2 = new javax.swing.JMenu("User");
+    private javax.swing.JMenu jMenu3 = new javax.swing.JMenu("Setting");
+    private javax.swing.JMenu jMenu4 = new javax.swing.JMenu("Search");
+    private javax.swing.JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
+    private javax.swing.JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
+    private javax.swing.JMenuItem jMenuItem2 = new javax.swing.JMenuItem("Exit");
+    private javax.swing.JMenuItem jMenuItem3 = new javax.swing.JMenuItem("My Collection");
+    private javax.swing.JMenuItem jMenuItem4 = new javax.swing.JMenuItem("jMenuItem4");
+    private javax.swing.JMenuItem jMenuItem5 = new javax.swing.JMenuItem("My OrderLIst");
+    private javax.swing.JMenuItem jMenuItem6 = new javax.swing.JMenuItem("jMenuItem6");
+    private javax.swing.JRadioButton jRadioButton1 = new javax.swing.JRadioButton("jRadioButton1");
+    private javax.swing.JRadioButton jRadioButton2 = new javax.swing.JRadioButton("jRadioButton2");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem("Double room");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem("Single room");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem("Breakfast");
     
     //Hotellist
     private JPanel Hotellistpanel ;
     private JPanel Hotellistpanel_1 ;
     private JPanel Hotellistpanel_2 ;
     private JPanel Hotellistpanel_3 ;
-    private JPanel Hotellistpanel_4 ;
+    private JPanel Hotellistpanel_4 = new JPanel();
     private JPanel Hotellistpanel1 = new JPanel() ;
     private JScrollPane HotellistScroll = new JScrollPane(Hotellistpanel1);
     private JLabel Hotellistlabel ;
     public JRadioButton Hotellistbutton = new JRadioButton("Like");
-    private JButton Hotellistbu1 = new JButton("Detail");
+    public JButton Hotellistbu1 = new JButton("Detail");
     
     //detail hotel info
     private JPanel detailpanel1;
@@ -123,12 +126,12 @@ public class View extends JFrame implements Observer{
     
     public void View1(){
         
-        this.getContentPane().removeAll();
+       
         this.setLayout(new GridLayout(3,1));
         
-        JLabel tempj = new JLabel("Hotel Era Login System");
-        tempj.setFont(new Font("宋体",Font.BOLD,20));
-        tempj.setBounds(180,0,300,80);
+       
+        tempk.setFont(new Font("宋体",Font.BOLD,20));
+        tempk.setBounds(180,0,300,80);
         
        
         username.setFont(new Font("宋体",Font.BOLD,20));
@@ -165,6 +168,14 @@ public class View extends JFrame implements Observer{
 
         LoginPanel4.add(loginButton);
         LoginPanel4.add(registerButton);
+        
+        
+        
+        this.getContentPane().removeAll();
+        LoginPanel1.setVisible(true);
+        LoginPanel2.setVisible(true);
+        LoginPanel4.setVisible(true);
+        
         this.add(LoginPanel1);
         this.add(LoginPanel2);
         this.add(LoginPanel4);
@@ -172,8 +183,10 @@ public class View extends JFrame implements Observer{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 1000);
         this.setLocationRelativeTo(null);
-        
         this.setVisible(true);
+        this.revalidate();
+        this.repaint();
+        
     }
     
     public void Register(){
@@ -182,7 +195,7 @@ public class View extends JFrame implements Observer{
         this.setLayout(new GridLayout(6,1));
         
         
-        JLabel tempj = new JLabel("Hotel Era Register System");
+       
         tempj.setFont(new Font("宋体",Font.BOLD,20));
         tempj.setBounds(180,0,300,80);
         
@@ -235,6 +248,7 @@ public class View extends JFrame implements Observer{
         this.add(RegisterPanel5);
         this.setSize(1200, 1000);
         this.setLocationRelativeTo(null);
+        
         this.revalidate();
         this.repaint();
         
@@ -258,15 +272,15 @@ public class View extends JFrame implements Observer{
     }
     
     public void Hotelinformation(){
+        HotelList(OrderNumber);
         this.getContentPane().removeAll();
         NavigateBar();
-        HotelList(OrderNumber);
-        
         this.setLayout(new GridLayout(1,1));
+        
+        HotellistScroll.setVisible(true);
         this.add(HotellistScroll);
         this.setSize(1200, 1000);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
         this.revalidate();
         this.repaint();
     }
@@ -293,7 +307,7 @@ public class View extends JFrame implements Observer{
         this.setSize(1200, 1000);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-         this.revalidate();
+        this.revalidate();
         this.repaint();
     }
     
@@ -323,69 +337,23 @@ public class View extends JFrame implements Observer{
         
     }
     private void NavigateBar(){
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem("Exit");
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem("My Collection");
-        jMenuItem5 = new javax.swing.JMenuItem("My OrderLIst");
-        jMenu1 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem();
-
-        jMenuItem4.setText("jMenuItem4");
-
-        jMenuItem6.setText("jMenuItem6");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
 
-        jRadioButton1.setText("jRadioButton1");
-
-        jRadioButton2.setText("jRadioButton2");
-
-        jMenu3.setText("Settings");
-
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\修改密码.png")); // NOI18N
-        jMenuItem1.setText("Change password");
-//        jMenu3.add(jMenuItem1);
-
-       
-        
         jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
 
-        jMenu2.setText("User");
-
-        
-        
         jMenu2.add(jMenuItem3);
 
-        
         jMenu2.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu2);
         jMenuBar1.add(jMenu1);
-
-        jMenu4.setText("Search");
-
-        jRadioButtonMenuItem2.setText("Single room");
+        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenu3);
         jMenu4.add(jRadioButtonMenuItem2);
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("Double room");
         jMenu4.add(jRadioButtonMenuItem1);
 
-        jRadioButtonMenuItem3.setSelected(true);
-        jRadioButtonMenuItem3.setText("Breakfast");
         jMenu4.add(jRadioButtonMenuItem3);
 
         jMenuBar1.add(jMenu4);
@@ -443,8 +411,16 @@ public class View extends JFrame implements Observer{
             Hotellistpanel_3 = new JPanel();
             Hotellistpanel_4 = new JPanel();
             Hotellistlabel = new JLabel("HotelName: "+i);
+            Hotellistbutton = new JRadioButton("like");
             
+            Hotellistbu1 = new JButton("Detail");
+            Hotellistbu1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    detailHotelinfo();
+                }
             
+            });
             Hotellistpanel_1.setBackground(Color.PINK);
             Hotellistpanel_3.setBackground(Color.cyan);
             Hotellistpanel_4.setBackground(Color.GRAY);
@@ -474,15 +450,15 @@ public class View extends JFrame implements Observer{
         this.registerButton.addActionListener(listener);
         this.ButtonforRegister.addActionListener(listener);
         this.Back.addActionListener(listener);
-//        this.jMenuItem1.addActionListener(listener);//change password
-//        this.jMenuItem2.addActionListener(listener);//Exit
-//        this.jMenuItem3.addActionListener(listener);//Collection
-//        this.jMenuItem4.addActionListener(listener);//Order
-//        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
-//        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
-//        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
+        this.jMenuItem1.addActionListener(listener);//change password
+        this.jMenuItem2.addActionListener(listener);//Exit
+        this.jMenuItem3.addActionListener(listener);//Collection
+        this.jMenuItem4.addActionListener(listener);//Order
+        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
+        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
+        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
         this.Hotellistbutton.addActionListener(listener);//Like
-        this.Hotellistbu1.addActionListener(listener);//Buy
+        
         this.orderlistbu1.addActionListener(listener);//Delete
     }
      
@@ -503,13 +479,14 @@ public class View extends JFrame implements Observer{
             this.pwInput.setText("");
         }
         if(data.getGethotelinfoflag()== 1 ){
+           
             
             System.out.println(" got hotelinfoflag");
         }
         if(data.getRegisterflag() == 1)
         {
             System.out.println(" got registerflag");
-            View1();
+            
         }
         if(data.getCheckflag() == 1)
         {

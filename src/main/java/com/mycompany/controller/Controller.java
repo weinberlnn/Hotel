@@ -25,35 +25,68 @@ public class Controller implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        switch(command){
-            case "Log in":
-                String loginusername = this.view.unInput.getText();
-                String loginpassword = new String(this.view.pwInput.getPassword());
-                System.out.println(loginpassword);
-                if(this.model.login(loginusername, loginpassword)){
-                    this.model.getHotelInfo();
+        
+        if(e.getSource() == this.view.loginButton)
+        {
+            String loginusername = this.view.unInput.getText();
+            String loginpassword = new String(this.view.pwInput.getPassword());
+            System.out.println(loginpassword);
+            if(this.model.login(loginusername, loginpassword)){
+                this.model.getHotelInfo();
                     
-                    this.view.Hotelinformation();
-                }
-                break;
-            case "Get Registe":
+                this.view.Hotelinformation();
+            }
+        }else if(e.getSource() == this.view.registerButton)
+        {
+            this.view.Register();
+        }else if(e.getSource() == this.view.ButtonforRegister){
                 String registerusername = this.view.registerunInput.getText();
                 String registerpassword = new String(this.view.registerpwInput1.getPassword());
                 String registeremail = this.view.EmailInput.getText();
-                System.out.println(this.model.checkUserWhenRegister(registerusername));
+                
                 if(!this.model.checkUserWhenRegister(registerusername))
                 {
-                    System.out.println(" there is no such user!");
+                    
                     this.model.register(registerusername, registerpassword, registeremail);
+                    this.view.View1();
                     
+                }else{
+                    this.view.tempj.setText("Username exist!");
                 }
-                    
-                
-            case "Register":
-                this.view.Register();
-            
         }
+//        switch(e.getSource()){
+//            case "Log in":
+//                String loginusername = this.view.unInput.getText();
+//                String loginpassword = new String(this.view.pwInput.getPassword());
+//                System.out.println(loginpassword);
+//                if(this.model.login(loginusername, loginpassword)){
+//                    this.model.getHotelInfo();
+//                    
+//                    this.view.Hotelinformation();
+//                }
+//                break;
+//            case "Get Registe":
+//                String registerusername = this.view.registerunInput.getText();
+//                String registerpassword = new String(this.view.registerpwInput1.getPassword());
+//                String registeremail = this.view.EmailInput.getText();
+//                System.out.println(this.model.checkUserWhenRegister(registerusername));
+//                if(this.model.checkUserWhenRegister(registerusername))
+//                {
+//                    System.out.println(" there is no such user!");
+//                    this.model.register(registerusername, registerpassword, registeremail);
+//                    this.view.View1();
+//                    
+//                }
+//                break;
+//                    
+//            case "Register":
+//                this.view.Register();
+//                break;
+//            case "Detail":
+//                this.view.detailHotelinfo();
+//                break;
+//            
+//        }
     }
     
 }
