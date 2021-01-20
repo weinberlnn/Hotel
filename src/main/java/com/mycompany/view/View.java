@@ -72,7 +72,7 @@ public class View extends JFrame implements Observer{
     private JScrollPane orderlistScroll = new JScrollPane(orderlistpanel1);
     private JLabel orderlistlabel ;
     private JTextField orderlisttext ;
-    private JButton orderlistbu1 ;
+    private JButton orderlistbu1 = new JButton("Delete");
     
     //NavigateBar
     private javax.swing.JMenu jMenu1;
@@ -101,8 +101,8 @@ public class View extends JFrame implements Observer{
     private JPanel Hotellistpanel1 = new JPanel() ;
     private JScrollPane HotellistScroll = new JScrollPane(Hotellistpanel1);
     private JLabel Hotellistlabel ;
-    private JRadioButton Hotellistbutton ;//like
-    private JButton Hotellistbu1 ;//buy
+    public JRadioButton Hotellistbutton = new JRadioButton("Like");
+    private JButton Hotellistbu1 = new JButton("Detail");
     
     //detail hotel info
     private JPanel detailpanel1;
@@ -241,28 +241,34 @@ public class View extends JFrame implements Observer{
     }
     
     public void Orderinformation(){
-       this.getContentPane().removeAll();
        NavigateBar();
        OrderList();
-       
        this.setLayout(new GridLayout(1,1));
+       this.getContentPane().removeAll();
+       
+       
+       
        
        this.add(orderlistScroll);
        this.setSize(1200, 1000);
        this.setLocationRelativeTo(null);
        this.setVisible(true);
+        this.revalidate();
+        this.repaint();
     }
     
     public void Hotelinformation(){
         this.getContentPane().removeAll();
         NavigateBar();
-        HotelList();
+        HotelList(OrderNumber);
         
         this.setLayout(new GridLayout(1,1));
         this.add(HotellistScroll);
         this.setSize(1200, 1000);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        this.revalidate();
+        this.repaint();
     }
     
     public void detailHotelinfo(){
@@ -276,6 +282,21 @@ public class View extends JFrame implements Observer{
          this.setLocationRelativeTo(null);
          this.setVisible(true);
     }
+    
+    public void collection(){
+        this.getContentPane().removeAll();
+        NavigateBar();
+        HotelList(OrderNumber/2);
+        
+        this.setLayout(new GridLayout(1,1));
+        this.add(HotellistScroll);
+        this.setSize(1200, 1000);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+         this.revalidate();
+        this.repaint();
+    }
+    
     
     private void detailHotel(){
         
@@ -309,10 +330,10 @@ public class View extends JFrame implements Observer{
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem("Exit");
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem("My Collection");
+        jMenuItem5 = new javax.swing.JMenuItem("My OrderLIst");
         jMenu1 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
@@ -324,7 +345,7 @@ public class View extends JFrame implements Observer{
         jMenuItem6.setText("jMenuItem6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Hotel Booking System");
+        
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -336,21 +357,19 @@ public class View extends JFrame implements Observer{
         jMenuItem1.setText("Change password");
 //        jMenu3.add(jMenuItem1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\退出.png")); // NOI18N
-        jMenuItem2.setText("Exit");
-        jMenuItem2.setActionCommand("Exit");
+       
+        
         jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
 
         jMenu2.setText("User");
 
-        jMenuItem3.setText("My Collection");
-        jMenuItem3.setToolTipText("");
+        
+        
         jMenu2.add(jMenuItem3);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\确认.png")); // NOI18N
-        jMenuItem5.setText("My OrderLIst");
+        
         jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
@@ -396,7 +415,7 @@ public class View extends JFrame implements Observer{
             orderlistpanel = new JPanel();
             orderlistlabel = new JLabel("No: "+i);
             orderlisttext = new JTextField("This is NO: "+i);
-            orderlistbu1 = new JButton("Delete");
+            
             orderlistpanel.add(orderlistlabel);
             orderlistpanel.add(orderlisttext);
             orderlistpanel.add(orderlistbu1);
@@ -410,7 +429,7 @@ public class View extends JFrame implements Observer{
 //        this.repaint();
     }
     
-    private void HotelList(){
+    private void HotelList(int OrderNumber){
         Hotellistpanel1.setLayout(new GridLayout(OrderNumber/2,4,10,10));
         orderlistpanel1.setBounds(new Rectangle(25,25,25,25));
         for(int i=0;i<OrderNumber;i++)
@@ -424,8 +443,8 @@ public class View extends JFrame implements Observer{
             Hotellistpanel_3 = new JPanel();
             Hotellistpanel_4 = new JPanel();
             Hotellistlabel = new JLabel("HotelName: "+i);
-            Hotellistbutton = new JRadioButton("Like");
-            Hotellistbu1 = new JButton("Buy");
+            
+            
             Hotellistpanel_1.setBackground(Color.PINK);
             Hotellistpanel_3.setBackground(Color.cyan);
             Hotellistpanel_4.setBackground(Color.GRAY);
@@ -445,6 +464,7 @@ public class View extends JFrame implements Observer{
             
             
             Hotellistpanel1.add(Hotellistpanel);
+            Hotellistpanel.setVisible(true);
         }
     }
     
@@ -454,13 +474,13 @@ public class View extends JFrame implements Observer{
         this.registerButton.addActionListener(listener);
         this.ButtonforRegister.addActionListener(listener);
         this.Back.addActionListener(listener);
-        this.jMenuItem1.addActionListener(listener);//change password
-        this.jMenuItem2.addActionListener(listener);//Exit
-        this.jMenuItem3.addActionListener(listener);//Collection
-        this.jMenuItem4.addActionListener(listener);//Order
-        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
-        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
-        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
+//        this.jMenuItem1.addActionListener(listener);//change password
+//        this.jMenuItem2.addActionListener(listener);//Exit
+//        this.jMenuItem3.addActionListener(listener);//Collection
+//        this.jMenuItem4.addActionListener(listener);//Order
+//        this.jRadioButtonMenuItem1.addActionListener(listener);//Double room
+//        this.jRadioButtonMenuItem2.addActionListener(listener);//Single room
+//        this.jRadioButtonMenuItem3.addActionListener(listener);//Breakfast
         this.Hotellistbutton.addActionListener(listener);//Like
         this.Hotellistbu1.addActionListener(listener);//Buy
         this.orderlistbu1.addActionListener(listener);//Delete
