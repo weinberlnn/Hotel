@@ -25,6 +25,7 @@ public class Model extends Observable{
     public JDBCTemplate jdbcTemplate;
     public DataMessage dm = new DataMessage();
     public User user;
+    public Hotel hotel;
     public Model(){
         this.jdbcTemplate = new JDBCTemplate();
     }
@@ -131,6 +132,7 @@ public class Model extends Observable{
         }
     }
     public void getRoomInfo(int hotelid){
+        hotel = jdbcTemplate.getHotelById(hotelid);
         dm.initialize();
         ArrayList<Room> roomcollection = jdbcTemplate.getRoomInfo(hotelid);
         if(roomcollection!=null){
@@ -145,18 +147,34 @@ public class Model extends Observable{
             this.notifyObservers(dm);
         }
     }
-    public void booking(int roomid,int roomnumber){
+    public void getRoomInfoIfHotelNotNull(){
+        dm.initialize();
+        ArrayList<Room> roomcollection = jdbcTemplate.getRoomInfo(hotel.getHotelid());
+        if(roomcollection!=null){
+            dm.setGetroominfoflag(1);
+            dm.setSource(roomcollection);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+        else{
+            dm.setGetroominfoflag(0);
+            this.setChanged();
+            this.notifyObservers(dm);
+        }
+    }
+    public boolean booking(int roomid,int roomnumber){
         dm.initialize();
         if(jdbcTemplate.booking(roomid, roomnumber)){
             dm.setRoomexistflag(1);
             this.setChanged();
             this.notifyObservers(dm);
+            return true;
         }
         else{
             dm.setRoomexistflag(0);
             this.setChanged();
             this.notifyObservers(dm);
-            
+            return false;
         }
     }
     public void formOrder(String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
@@ -176,6 +194,9 @@ public class Model extends Observable{
             this.setChanged();
             this.notifyObservers(dm);
         }
+    }
+    public void cancelOrder(int orderid){
+        jdbcTemplate.cancelOrder(orderid);
     }
     public void pay(){
         dm.initialize();

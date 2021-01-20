@@ -18,8 +18,8 @@ public class Order {
     private double totalcost;
     private String hotename;
     private String roomstyle;
-
-    public Order(int orderid, int userid, String usertruename, String userphone, int bookday, double totalcost, String hotename, String roomstyle) {
+    private String orderstatus;
+    public Order(int orderid, int userid, String usertruename, String userphone, int bookday, double totalcost, String hotename, String roomstyle,String orderstatus) {
         this.orderid = orderid;
         this.userid = userid;
         this.usertruename = usertruename;
@@ -28,6 +28,7 @@ public class Order {
         this.totalcost = totalcost;
         this.hotename = hotename;
         this.roomstyle = roomstyle;
+        this.orderstatus = orderstatus;
     }
 
     public int getOrderid() {
@@ -92,6 +93,14 @@ public class Order {
 
     public void setRoomstyle(String roomstyle) {
         this.roomstyle = roomstyle;
+    }
+
+    public String getOrderstatus() {
+        return orderstatus;
+    }
+
+    public void setOrderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
     }
     
 }
