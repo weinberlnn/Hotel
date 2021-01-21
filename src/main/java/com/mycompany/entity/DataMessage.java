@@ -115,7 +115,6 @@ public class DataMessage {
     
     public void initialize(){
         registerflag = 0;
-        loginflag = 0;
         checkflag = 0;
         gethotelinfoflag=0;
         getroominfoflag=0;

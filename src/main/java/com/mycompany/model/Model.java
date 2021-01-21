@@ -26,6 +26,7 @@ public class Model extends Observable{
     public DataMessage dm = new DataMessage();
     public User user;
     public Hotel hotel;
+    public Room room;
     public Model(){
         this.jdbcTemplate = new JDBCTemplate();
     }
@@ -162,23 +163,25 @@ public class Model extends Observable{
             this.notifyObservers(dm);
         }
     }
-    public boolean booking(int roomid,int roomnumber){
+    public boolean booking(int roomid){
+        room = jdbcTemplate.getRoomByRoomid(roomid);
+        int roomnumber = room.getRoomnumber();
         dm.initialize();
         if(jdbcTemplate.booking(roomid, roomnumber)){
-            dm.setRoomexistflag(1);
+            dm.setRoomexistflag(0);
             this.setChanged();
             this.notifyObservers(dm);
             return true;
         }
         else{
-            dm.setRoomexistflag(0);
+            dm.setRoomexistflag(1);
             this.setChanged();
             this.notifyObservers(dm);
             return false;
         }
     }
-    public void formOrder(String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
-        jdbcTemplate.formOrder(user.getUserid(), usertruename, userphone, bookday, totalcost, hotelname, roomstyle);
+    public void formOrder(String usertruename,String userphone,int bookday){
+        jdbcTemplate.formOrder(user.getUserid(), usertruename, userphone, bookday, bookday*room.getRoomcost(), hotel.getHotelname(), room.getRoomstyle());
     }
     public void getOrderInfo(){
         dm.initialize();

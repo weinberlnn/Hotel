@@ -345,13 +345,32 @@ public class JDBCTemplate{
         }
         return null;
     }
+    public Room getRoomByRoomid(int roomid){
+        String roominfosql = "SELECT * FROM HOTELROOM WHERE ROOMID = ?";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(roominfosql);
+            pstm.setInt(1, roomid);
+            ResultSet result = pstm.executeQuery();
+            if(result.next()){
+                Room room = new Room(result.getInt("roomid"),result.getInt("hotelid"),result.getString("roomstyle"),result.getDouble("roomcost"),result.getInt("roomnumber"));
+                return room;
+            }
+            else{
+                return null;
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
     /*
     * Booking the hotel's room by roomid and roomnumber
     * If roomnumber is lower than zero after booking, the database will rollback
     */
     public boolean booking(int roomid,int roomnumber){
+        Room room = null;
         String existroomsql = "SELECT * FROM HOTELROOM WHERE ROOMID = ?";
-        String updateroomsql = "UPDATE HOTELROOM SET ROOOMNUMBER =? WHERE ROOMID = ?";
+        String updateroomsql = "UPDATE HOTELROOM SET ROOMNUMBER =? WHERE ROOMID = ?";
         try{
             conn.setAutoCommit(false);
             PreparedStatement pstm = conn.prepareStatement(updateroomsql);
@@ -360,8 +379,11 @@ public class JDBCTemplate{
             pstm.executeUpdate();
             conn.commit();
             pstm = conn.prepareStatement(existroomsql);
+            pstm.setInt(1, roomid);
             ResultSet result = pstm.executeQuery();
-            Room room = new Room(result.getInt("roomid"),result.getInt("hotelid"),result.getString("roomstyle"),result.getDouble("roomcost"),result.getInt("roomnumber"));
+            if(result.next()){
+                room = new Room(result.getInt("roomid"),result.getInt("hotelid"),result.getString("roomstyle"),result.getDouble("roomcost"),result.getInt("roomnumber"));
+            }
             if(room.getRoomnumber()<0){
                 throw new RuntimeException("room is not enough");
             }
@@ -387,10 +409,17 @@ public class JDBCTemplate{
     * Form the order information and insert it to the database
     */
     public void formOrder(int userid,String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
-        String formordersql = "INSERT INTO HOTELORDER VALUES(?,?,?,?,?,?,?,?)";
+        String formordersql = "INSERT INTO HOTELORDER VALUES(?,?,?,?,?,?,?,?,?)";
+        String selectsql = "SELECT * FROM HOTELORDER";
+        Order order = null;
         try{
-            PreparedStatement pstm = conn.prepareStatement(formordersql);
-            pstm.setInt(1, 0);
+            PreparedStatement pstm = conn.prepareStatement(selectsql);
+            ResultSet result = pstm.executeQuery();
+            while(result.next()){
+                order = new Order(result.getInt("orderid"),result.getInt("userid"),result.getString("usertruename"),result.getString("userphone"),result.getInt("bookday"),result.getDouble("totalcost"),result.getString("hotelname"),result.getString("roomstyle"),result.getString("orderstatus"));
+            }
+            pstm = conn.prepareStatement(formordersql);
+            pstm.setInt(1, order.getOrderid()+1);
             pstm.setInt(2, userid);
             pstm.setString(3, usertruename);
             pstm.setString(4, userphone);
@@ -398,6 +427,7 @@ public class JDBCTemplate{
             pstm.setDouble(6, totalcost);
             pstm.setString(7, hotelname);
             pstm.setString(8,roomstyle);
+            pstm.setString(9, "Ordered");
             pstm.executeUpdate();
         }catch(SQLException ex){
             ex.printStackTrace();
