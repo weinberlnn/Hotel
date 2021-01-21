@@ -32,8 +32,8 @@ public class Controller implements ActionListener{
                 String loginpassword = new String(this.view.pwInput.getPassword());
                 System.out.println(loginpassword);
                 if(this.model.login(loginusername, loginpassword)){
-                    this.model.getHotelInfo();
                     this.view.Hotelinformation();
+                    this.model.getHotelInfo();
                 }
                 break;
             case "Get Registe":
@@ -72,7 +72,6 @@ public class Controller implements ActionListener{
                 break;
             //Order List View that back to HotelList;
             case "Back to Hotelinfo":
-//                this.view.HotellistScroll.removeAll();
                 this.model.getHotelInfo();
                 this.view.Hotelinformation();
                 break;

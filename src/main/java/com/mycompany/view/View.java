@@ -614,12 +614,12 @@ public class View extends JFrame implements Observer{
           System.out.println("gethotelinfoflag: "+data.getGethotelinfoflag());
           System.out.println("getorderinfoflag: "+data.getGetorderinfoflag());
         if (data.getLoginflag() == 0) { // If loginFlage is false, then ask the user to input again.
-            System.out.println("wrong");
+            JOptionPane.showMessageDialog(LoginPanel4, "Please Enter the right username and password", "Error",JOptionPane.ERROR_MESSAGE);
             this.unInput.setText("");
             this.pwInput.setText("");
         }
         if(data.getGethotelinfoflag()== 1 ){
-            hotelinfo = (ArrayList)data.getSource();
+            hotelinfo = (ArrayList<Hotel>)data.getSource();
             System.out.println(hotelinfo.size());
             System.out.println(" got hotelinfoflag");
         }
