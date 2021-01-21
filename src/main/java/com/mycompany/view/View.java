@@ -569,7 +569,7 @@ public class View extends JFrame implements Observer{
             Hotellistpanel.setVisible(true);
         }
     }
-    
+
     private class PicturePanel extends JPanel{
         private ImageIcon image;
         private int index;
