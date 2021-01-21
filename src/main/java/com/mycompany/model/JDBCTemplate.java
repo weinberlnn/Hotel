@@ -270,6 +270,22 @@ public class JDBCTemplate{
         }
         return null;
     }
+    public Hotel getHotelById(int hotelid){
+        String hotelinfosql = "SELECT * FROM HOTEL WHERE HOTELID = ?";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(hotelinfosql);
+            pstm.setInt(1, hotelid);
+            ResultSet result =  pstm.executeQuery();
+            if(result.next()){
+                Hotel hotel = new Hotel(result.getInt("HOTELID"),result.getString("HOTELNAME"),result.getDouble("HOTELCOST"),result.getString("HOTELSTYLE"),result.getString("HOTELBREAKFAST"),result.getString("HOTELPICTURE"),result.getInt("HOTELNUMBER"),result.getDouble("HOTELPOINT"),result.getDouble("HOTELSIMILARITY"));
+                return hotel;
+            }
+            return null;
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
     /*
     * Select some hotels by hotelbreakfast such as 'yes' or 'no' which means 
     * this hotel will have breakfast or not.
@@ -395,9 +411,10 @@ public class JDBCTemplate{
         ArrayList<Order> ordercollection = new ArrayList<>();
         try{
             PreparedStatement pstm = conn.prepareStatement(orderinfosql);
+            pstm.setInt(1,userid);
             ResultSet result = pstm.executeQuery();
             while(result.next()){
-                Order order = new Order(result.getInt("orderid"),result.getInt("userid"),result.getString("usertruename"),result.getString("userphone"),result.getInt("bookday"),result.getDouble("totalcost"),result.getString("hotelname"),result.getString("roomstyle"));
+                Order order = new Order(result.getInt("orderid"),result.getInt("userid"),result.getString("usertruename"),result.getString("userphone"),result.getInt("bookday"),result.getDouble("totalcost"),result.getString("hotelname"),result.getString("roomstyle"),result.getString("orderstatus"));
                 ordercollection.add(order);
             }
             return ordercollection;
@@ -405,6 +422,17 @@ public class JDBCTemplate{
             ex.printStackTrace();
         }
         return null;
+    }
+    public void cancelOrder(int orderid){
+        String cancelordersql = "UPDATE HOTELORDER SET ORDERSTATUS = ? WHERE ORDERID = ?";
+        try{
+            PreparedStatement pstm = conn.prepareStatement(cancelordersql);
+            pstm.setString(1, "Cancel");
+            pstm.setInt(2, orderid);
+            pstm.executeUpdate();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
     }
     /*
     * Pay method which probably can use AliPay API.
@@ -415,6 +443,10 @@ public class JDBCTemplate{
     public void logout(){
         dBManager.closeConnection();
     }
+    /*
+    * Add some hotel that user like.
+    * This result can be used to UserCF.
+    */
     public void addLikeItem(int userid,int hotelid){
         String addlikeitemsql = "INSERT INTO LIKEITEM VALUES(?,?,?)";
         String selectitemsql = "SELECT * FROM LIKEITEM";
