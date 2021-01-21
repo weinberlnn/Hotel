@@ -19,6 +19,7 @@ public class DataMessage {
     private int payflag;
     private int roomexistflag;
     private int getuserinfoflag;
+    private int searchflag;
     private Object source;
     public DataMessage(){
         registerflag = 0;
@@ -30,6 +31,7 @@ public class DataMessage {
         payflag=0;
         roomexistflag=0;
         getuserinfoflag=0;
+        searchflag=0;
         source = null;
     }
 
@@ -40,7 +42,14 @@ public class DataMessage {
     public void setRegisterflag(int registerflag) {
         this.registerflag = registerflag;
     }
-
+    
+    public int getSearchflag(){
+        return searchflag;
+    }
+    
+    public void setSearchflag(int searchflag){
+        this.searchflag = searchflag;
+    }
     public int getLoginflag() {
         return loginflag;//1 0
     }
@@ -122,6 +131,7 @@ public class DataMessage {
         payflag=0;
         roomexistflag=0;
         getuserinfoflag=0;
+        searchflag = 0;
         source = null;
     }
 }

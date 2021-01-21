@@ -113,7 +113,9 @@ public class View extends JFrame implements Observer{
     private JPanel Hotellistpanel_3;
     private JPanel Hotellistpanel_4;
     private JPanel Hotellistpanel1 = new JPanel();
+    private JPanel Hotellistpanel2 = new JPanel();
     private JScrollPane HotellistScroll = new JScrollPane(Hotellistpanel1);
+    private JScrollPane HotellistScroll2 = new JScrollPane(Hotellistpanel2);
     private JLabel Hotellistlabel;
     private JRadioButton Hotellistbutton;//like
     public ArrayList<JButton> Hotellistbu1 = new ArrayList<JButton>();//more information
@@ -161,8 +163,10 @@ public class View extends JFrame implements Observer{
         }
         
     }
+    
     private void HotelList1(ArrayList<Hotel> hotelcollection) {
-        Hotellistpanel1.setLayout(new GridLayout(hotelcollection.size() / 2, 4, 10, 10));
+        
+        Hotellistpanel2.setLayout(new GridLayout(hotelcollection.size() / 2, 4, 10, 10));
         
         for (int i = 0; i < hotelcollection.size(); i++) {
             Hotel hotel = hotelcollection.get(i);
@@ -194,7 +198,7 @@ public class View extends JFrame implements Observer{
             Hotellistpanel.add(Hotellistpanel_1);
             Hotellistpanel.add(Hotellistpanel_2);
 
-            Hotellistpanel1.add(Hotellistpanel);
+            Hotellistpanel2.add(Hotellistpanel);
 
             JLabel jlimage = new JLabel();
             ImageIcon icon = new ImageIcon("src/main/java/com/mycompany/view/HotelPictures/"+hotel.getHotelpicture());	    
@@ -421,13 +425,13 @@ public class View extends JFrame implements Observer{
     
     
     //singelroom page
-    
-    public void SingleRoom(){
+    ArrayList<Hotel> searchcollection;
+    public void SearchRoom(){
         this.getContentPane().removeAll();
         NavigateBar();
-        HotelList1(hotelcollection);
+        HotelList1(searchcollection);
         this.setLayout(new GridLayout(1, 1));
-        this.add(HotellistScroll);
+        this.add(HotellistScroll2);
         this.setVisible(true);
     }
     
@@ -451,6 +455,7 @@ public class View extends JFrame implements Observer{
         System.out.println("roominfoflag: "+data.getGetroominfoflag());
         System.out.println("Roomexistflag: "+data.getRoomexistflag());
         System.out.println("Payflag: "+data.getPayflag());
+        System.out.println("Searchflag: "+data.getSearchflag());
         if(data.getCheckflag()==1){
             this.userInput2.setText(null);
             this.passInput2.setText(null);
@@ -482,7 +487,11 @@ public class View extends JFrame implements Observer{
             ordercollection = (ArrayList<Order>)data.getSource();
             this.Orderinformation();
         }
-        
+        else if(data.getSearchflag() == 1){
+            searchcollection = (ArrayList<Hotel>)data.getSource();
+            System.out.println(searchcollection);
+            this.SearchRoom();
+        }
         
     }
     
