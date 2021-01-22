@@ -63,7 +63,7 @@ public class JDBCTemplate{
         String registersql = "INSERT INTO HOTELUSER VALUES(?,?,?,?,?)";
         String checkidsql = "SELECT * FROM HOTELUSER";
         try{
-            int userid = 0;
+            int userid = 999;
             Statement stm = conn.createStatement();
             ResultSet result = stm.executeQuery(checkidsql);
             while(result.next()){
@@ -235,7 +235,7 @@ public class JDBCTemplate{
 	for(int i=0;preList.size()>0&&i<5;i++) {
             recomLists.add(preList.pollLast());
 	}
-	while(recomLists.size()<5) {
+	while(recomLists.size()<hotels.size()) {
             recomLists.add(oldList2.pollLast());
 	}
 	return recomLists;
@@ -411,15 +411,15 @@ public class JDBCTemplate{
     public void formOrder(int userid,String usertruename,String userphone,int bookday,double totalcost,String hotelname,String roomstyle){
         String formordersql = "INSERT INTO HOTELORDER VALUES(?,?,?,?,?,?,?,?,?)";
         String selectsql = "SELECT * FROM HOTELORDER";
-        Order order = null;
+        int orderid = 999;
         try{
             PreparedStatement pstm = conn.prepareStatement(selectsql);
             ResultSet result = pstm.executeQuery();
             while(result.next()){
-                order = new Order(result.getInt("orderid"),result.getInt("userid"),result.getString("usertruename"),result.getString("userphone"),result.getInt("bookday"),result.getDouble("totalcost"),result.getString("hotelname"),result.getString("roomstyle"),result.getString("orderstatus"));
+                orderid = result.getInt("orderid");
             }
             pstm = conn.prepareStatement(formordersql);
-            pstm.setInt(1, order.getOrderid()+1);
+            pstm.setInt(1, orderid+1);
             pstm.setInt(2, userid);
             pstm.setString(3, usertruename);
             pstm.setString(4, userphone);

@@ -123,6 +123,7 @@ public class DataMessage {
     }
     
     public void initialize(){
+        loginflag=0;
         registerflag = 0;
         checkflag = 0;
         gethotelinfoflag=0;

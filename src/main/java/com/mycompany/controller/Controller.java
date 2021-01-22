@@ -52,7 +52,6 @@ public class Controller implements ActionListener{
                 this.view.Register();
                 break;
             case "Register":
-                System.out.println(" button register is pressed");
                 String registerusername = this.view.userInput2.getText();
                 String registerpassword = this.view.passInput2.getText();
                 String registeremail = this.view.emailInput.getText();
