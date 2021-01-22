@@ -38,10 +38,8 @@ public class Controller implements ActionListener{
             command = result[0];
             roomid = Integer.valueOf(result[1]);
         }
-        
         switch(command){
             case "Log in":
-                
                 String loginusername = this.view.userInput.getText();
                 String loginpassword = this.view.passInput.getText();
                 if(this.model.login(loginusername, loginpassword)){
@@ -52,7 +50,6 @@ public class Controller implements ActionListener{
                 this.view.Register();
                 break;
             case "Register":
-                System.out.println(" button register is pressed");
                 String registerusername = this.view.userInput2.getText();
                 String registerpassword = this.view.passInput2.getText();
                 String registeremail = this.view.emailInput.getText();
@@ -76,21 +73,6 @@ public class Controller implements ActionListener{
                     this.model.formOrder(truename, phone, bookday);
                     this.model.pay();
                 }
-                break;
-            case "My OrderLIst":
-                this.model.getOrderInfo();
-                break;
-            case "Double Room + Breakfast":
-                String style = "Double";
-                String breakfast = "Breakfase";
-                this.model.getHotelInfoByStyleandBreakfast(style, breakfast);
-                break;
-            case "Double Room":
-                
-                break;
-            case "Breakfast":
-                
-                break;
 //            case "Get Userinfo":
 //                this.model.getUserInfo();
 //                break;
