@@ -11,7 +11,6 @@ com/mycompany/entity/Hotel.class
 com/mycompany/entity/User.class
 com/mycompany/model/JDBCTemplate$1.class
 com/mycompany/view/View.class
-com/mycompany/view/View$1.class
 com/mycompany/entity/LikeItem.class
 com/mycompany/model/Model.class
 com/mycompany/entity/Order.class

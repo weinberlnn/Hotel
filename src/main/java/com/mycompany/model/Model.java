@@ -60,14 +60,15 @@ public class Model extends Observable{
         }
     }
     public void register(String username,String password,String email){
-       jdbcTemplate.register(username,password, email);
+        
+       jdbcTemplate.register(username,getMD5String(password), email);
         
     }
     public boolean login(String username,String password){
         dm.initialize();
         if(jdbcTemplate.login(username,password)!=null){
             user = jdbcTemplate.login(username, password);
-            dm.setLoginflag(0);
+            dm.setLoginflag(1);
             this.setChanged();
            
             this.notifyObservers(dm);
@@ -75,7 +76,7 @@ public class Model extends Observable{
             return true;
         }
         else{
-            dm.setLoginflag(1);
+            dm.setLoginflag(0);
             this.setChanged();
             
             this.notifyObservers(dm);
@@ -84,7 +85,7 @@ public class Model extends Observable{
         }
     }
     public void modifyPassword(String password){
-        jdbcTemplate.modifyPassword(user.getUsername(), getMD5String(password));
+        jdbcTemplate.modifyPassword(user.getUsername(), password);
     }
     public void getUserInfo(){
         dm.initialize();

@@ -62,7 +62,6 @@ public class View extends JFrame implements Observer{
     private JButton loginButton = new JButton("Log in");
     private JButton registerButton = new JButton("Get Register");
     public void Login(){
-        this.getContentPane().removeAll();
         this.titlePanel.add(title);
         this.loginPanel.add(username);
         this.loginPanel.add(userInput);
@@ -73,10 +72,7 @@ public class View extends JFrame implements Observer{
         this.LoginPanel.add(titlePanel,BorderLayout.NORTH);
         this.LoginPanel.add(loginPanel,BorderLayout.CENTER);
         this.LoginPanel.add(buttonPanel,BorderLayout.SOUTH);
-        LoginPanel.setVisible(true);
         this.add(LoginPanel);
-        this.revalidate();
-        this.repaint();
     }
     
     //Register Page
@@ -453,15 +449,22 @@ public class View extends JFrame implements Observer{
     }
     public void update(Observable arg0, Object arg1) {
         DataMessage data = (DataMessage) arg1;
+        System.out.println("Checkflag: "+data.getCheckflag());
+        System.out.println("Loginflag: "+data.getLoginflag());
+        System.out.println("hotelinfoflag: "+data.getGethotelinfoflag());
+        System.out.println("roominfoflag: "+data.getGetroominfoflag());
+        System.out.println("Roomexistflag: "+data.getRoomexistflag());
+        System.out.println("Payflag: "+data.getPayflag());
+        System.out.println("Searchflag: "+data.getSearchflag());
         if(data.getCheckflag()==1){
             this.userInput2.setText(null);
             this.passInput2.setText(null);
             this.emailInput.setText(null);
             JOptionPane.showMessageDialog(RegisterPanel, "Username is exists", "Error",JOptionPane.ERROR_MESSAGE);  
         }
-        else if(data.getLoginflag()==1){
-            this.userInput.setText(null);
-            this.passInput.setText(null);
+        else if(data.getLoginflag()==0){
+            this.userInput.setText("");
+            this.passInput.setText("");
             JOptionPane.showMessageDialog(LoginPanel, "Enter the right username and password", "Error",JOptionPane.ERROR_MESSAGE);
             
         }
@@ -486,6 +489,7 @@ public class View extends JFrame implements Observer{
         }
         else if(data.getSearchflag() == 1){
             searchcollection = (ArrayList<Hotel>)data.getSource();
+            System.out.println(searchcollection);
             this.SearchRoom();
         }
         
