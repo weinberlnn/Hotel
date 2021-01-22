@@ -7,8 +7,10 @@ package com.mycompany.controller;
 
 import com.mycompany.model.Model;
 import com.mycompany.view.View;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +21,7 @@ public class Controller implements ActionListener{
     public Model model;
     private int hotelid = 0;
     private int roomid = 0;
+    private int orderid = 0;
     public Controller(View view,Model model){
         this.view = view;
         this.model = model;
@@ -33,10 +36,14 @@ public class Controller implements ActionListener{
             hotelid = Integer.valueOf(result[1]);
         }
         else if(command.contains("-")){
-            System.out.println(command);
             String result[] = command.split("-");
             command = result[0];
             roomid = Integer.valueOf(result[1]);
+        }
+        else if(command.contains(":")){
+            String result[] = command.split(":");
+            command = result[0];
+            orderid = Integer.valueOf(result[1]);
         }
         switch(command){
             case "Log in":
@@ -73,6 +80,43 @@ public class Controller implements ActionListener{
                     this.model.formOrder(truename, phone, bookday);
                     this.model.pay();
                 }
+            case "My OrderList":
+                this.model.getOrderInfo();
+                break;
+            case "Hotel List":
+                this.view.HotelList();
+                break;
+            case "Cancel":
+                this.model.cancelOrder(orderid);
+                break;
+            case "Back to HotelList":
+                this.view.HotelList();
+                break;
+            case "Double bed and Breakfast":
+                String result[] = command.split(" and ");
+                if(!this.model.getHotelInfoByStyleandBreakfast(result[0], result[1])){
+                    JOptionPane.showMessageDialog(this.view.Hotellistpanel, "No such kind of hotel", "Error",JOptionPane.ERROR_MESSAGE);  
+                }
+                break;
+            case "Single bed and Breakfast":
+                String result2[] = command.split(" and ");
+                if(!this.model.getHotelInfoByStyleandBreakfast(result2[0], result2[1])){
+                    JOptionPane.showMessageDialog(this.view.Hotellistpanel, "No such kind of hotel", "Error",JOptionPane.ERROR_MESSAGE);  
+                }
+                break;
+            case "Double bed":
+                if(!this.model.getHotelInfoByStyleandBreakfast(command,null)){
+                    JOptionPane.showMessageDialog(this.view.Hotellistpanel, "No such kind of hotel", "Error",JOptionPane.ERROR_MESSAGE);  
+                }
+                break;
+            case "Single bed":
+                if(!this.model.getHotelInfoByStyleandBreakfast(command,null)){
+                    JOptionPane.showMessageDialog(this.view.Hotellistpanel, "No such kind of hotel", "Error",JOptionPane.ERROR_MESSAGE);  
+                }
+                break;
+            case "Exit":
+                this.model.logout();
+                System.exit(0);
 //            case "Get Userinfo":
 //                this.model.getUserInfo();
 //                break;

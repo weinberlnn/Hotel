@@ -61,14 +61,14 @@ public class Model extends Observable{
     }
     public void register(String username,String password,String email){
         
-       jdbcTemplate.register(username,getMD5String(password), email);
+        jdbcTemplate.register(username,getMD5String(password), email);
         
     }
     public boolean login(String username,String password){
         dm.initialize();
-        if(jdbcTemplate.login(username,password)!=null){
-            user = jdbcTemplate.login(username, password);
-            dm.setLoginflag(1);
+        if(jdbcTemplate.login(username,getMD5String(password))!=null){
+            user = jdbcTemplate.login(username, getMD5String(password));
+            dm.setLoginflag(0);
             this.setChanged();
            
             this.notifyObservers(dm);
@@ -76,7 +76,7 @@ public class Model extends Observable{
             return true;
         }
         else{
-            dm.setLoginflag(0);
+            dm.setLoginflag(1);
             this.setChanged();
             
             this.notifyObservers(dm);
@@ -85,7 +85,7 @@ public class Model extends Observable{
         }
     }
     public void modifyPassword(String password){
-        jdbcTemplate.modifyPassword(user.getUsername(), password);
+        jdbcTemplate.modifyPassword(user.getUsername(), getMD5String(password));
     }
     public void getUserInfo(){
         dm.initialize();
@@ -117,7 +117,7 @@ public class Model extends Observable{
             this.notifyObservers(dm);
         }
     }
-    public void getHotelInfoByStyleandBreakfast(String hotelstyle,String hotelbreakfast){
+    public boolean getHotelInfoByStyleandBreakfast(String hotelstyle,String hotelbreakfast){
         dm.initialize();
         ArrayList<Hotel> hotelcollection = jdbcTemplate.selectHotelInfo(hotelstyle,hotelbreakfast);
         if(hotelcollection!=null){
@@ -125,11 +125,13 @@ public class Model extends Observable{
             dm.setSource(hotelcollection);
             this.setChanged();
             this.notifyObservers(dm);
+            return true;
         }
         else{
             dm.setGethotelinfoflag(0);
             this.setChanged();
             this.notifyObservers(dm);
+            return false;
         }
     }
     public void getRoomInfo(int hotelid){

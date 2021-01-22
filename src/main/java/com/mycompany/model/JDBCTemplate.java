@@ -123,6 +123,7 @@ public class JDBCTemplate{
     * return five hotel which the point is the highest.
     */
     public ArrayList<Hotel> getHotelInfo(int userid){
+        int size = 0;
         List<LikeItem> likeLists = new ArrayList<>();
 	ArrayList<Hotel> recomLists = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
@@ -151,13 +152,19 @@ public class JDBCTemplate{
 
             @Override
             public int compare(Hotel o1, Hotel o2) {
-		return (int)((o1.getHotelpoint()-o2.getHotelpoint())*100);
+                if(o1.getHotelpoint()!=o2.getHotelpoint()){
+                    return (int)((o1.getHotelpoint()-o2.getHotelpoint())*100);
+                }
+                else{
+                    return o2.getHotelid()-o1.getHotelid();
+                }
             }
 			
 	});
 	for(Hotel hotel : hotels) {
             oldList2.add(hotel);
 	}
+        size = oldList2.size();
 	for(int m=0;m<users.size();m++) {
             User customer = users.get(m);
             if (customer.getUserid()==userid)
@@ -235,7 +242,7 @@ public class JDBCTemplate{
 	for(int i=0;preList.size()>0&&i<5;i++) {
             recomLists.add(preList.pollLast());
 	}
-	while(recomLists.size()<5) {
+	while(recomLists.size()<size) {
             recomLists.add(oldList2.pollLast());
 	}
 	return recomLists;

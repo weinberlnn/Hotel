@@ -112,8 +112,9 @@ public class DataMessage {
     public void setGetuserinfoflag(int getuserinfoflag) {
         this.getuserinfoflag = getuserinfoflag;
     }
-    
+
     public void initialize(){
+        loginflag = 0;
         registerflag = 0;
         checkflag = 0;
         gethotelinfoflag=0;

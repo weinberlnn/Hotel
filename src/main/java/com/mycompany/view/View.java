@@ -43,7 +43,7 @@ public class View extends JFrame implements Observer{
     public ActionListener listener;
     public View() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 200);
+        this.setSize(600,600);
         this.setLocationRelativeTo(null); // Make the frame located at the absolute center of the screen.
         this.Login();
         this.setVisible(true);
@@ -62,6 +62,7 @@ public class View extends JFrame implements Observer{
     private JButton loginButton = new JButton("Log in");
     private JButton registerButton = new JButton("Get Register");
     public void Login(){
+        this.getContentPane().removeAll();
         this.titlePanel.add(title);
         this.loginPanel.add(username);
         this.loginPanel.add(userInput);
@@ -72,7 +73,11 @@ public class View extends JFrame implements Observer{
         this.LoginPanel.add(titlePanel,BorderLayout.NORTH);
         this.LoginPanel.add(loginPanel,BorderLayout.CENTER);
         this.LoginPanel.add(buttonPanel,BorderLayout.SOUTH);
+        LoginPanel.setVisible(true);
         this.add(LoginPanel);
+        this.setSize(600,600);
+        this.revalidate();
+        this.repaint();
     }
     
     //Register Page
@@ -92,7 +97,7 @@ public class View extends JFrame implements Observer{
         this.usernamePanel.add(username2);
         this.usernamePanel.add(userInput2);
         this.usernamePanel.add(password2);
-        this.usernamePanel.add(passInput);
+        this.usernamePanel.add(passInput2);
         this.emailPanel.add(email);
         this.emailPanel.add(emailInput);
         this.buttonPanel2.add(registerButton2);
@@ -101,23 +106,26 @@ public class View extends JFrame implements Observer{
         this.RegisterPanel.add(buttonPanel2,BorderLayout.SOUTH);
         RegisterPanel.setVisible(true);
         this.add(RegisterPanel);
+        this.setSize(600,600);
         this.revalidate();
         this.repaint();
     }
     
     //HotelInformation Page;
     private ArrayList<Hotel> hotelcollection;
-    private JPanel Hotellistpanel;
+    public JPanel Hotellistpanel;
     private JPanel Hotellistpanel_1;
     private JPanel Hotellistpanel_2;
     private JPanel Hotellistpanel_3;
     private JPanel Hotellistpanel_4;
-    private JPanel Hotellistpanel1 = new JPanel();
-    private JScrollPane HotellistScroll = new JScrollPane(Hotellistpanel1);
     private JLabel Hotellistlabel;
     private JRadioButton Hotellistbutton;//like
     public ArrayList<JButton> Hotellistbu1 = new ArrayList<JButton>();//more information
-    private void HotelList() {
+    public void HotelList() {
+        this.getContentPane().removeAll();
+        NavigateBar();
+        JPanel Hotellistpanel1 = new JPanel();
+        JScrollPane HotellistScroll = new JScrollPane(Hotellistpanel1);
         Hotellistpanel1.setLayout(new GridLayout(hotelcollection.size() / 2, 4, 10, 10));
         
         for (int i = 0; i < hotelcollection.size(); i++) {
@@ -159,15 +167,11 @@ public class View extends JFrame implements Observer{
             Hotellistpanel_1.add(jlimage);
             
         }
-        
-    }
-    public void Hotelinformation(){
-        this.getContentPane().removeAll();
-        NavigateBar();
-        HotelList();
         this.setLayout(new GridLayout(1, 1));
+        this.setSize(600,600);
         this.add(HotellistScroll);
         this.setVisible(true);
+        
     }
     
     //RoomList Page;
@@ -181,10 +185,11 @@ public class View extends JFrame implements Observer{
             JPanel roomcostPanel = new JPanel();
             JPanel roombuttonPanel = new JPanel();
             JLabel roomstyle = new JLabel("Room Style:"+roomcollection.get(i).getRoomstyle());
-            JLabel roomcost = new JLabel("Room Cost:"+roomcollection.get(i).getRoomcost());
             JButton backButton = new JButton("Back to HotelList");
+            JLabel roomcost = new JLabel("Room Cost:"+roomcollection.get(i).getRoomcost());
             JButton buyButton = new JButton("Buy-"+roomcollection.get(i).getRoomid());
             buyButton.addActionListener(listener);
+            backButton.addActionListener(listener);
             roomstylePanel.add(roomstyle);
             roomcostPanel.add(roomcost);
             roombuttonPanel.add(backButton);
@@ -197,6 +202,7 @@ public class View extends JFrame implements Observer{
         this.getContentPane().removeAll();
         roomPanel.setVisible(true);
         this.add(roomPanel);
+        this.setSize(600,600);
         this.revalidate();
         this.repaint();
         
@@ -228,95 +234,67 @@ public class View extends JFrame implements Observer{
         this.orderPanel.add(buttonPanel1,BorderLayout.SOUTH);
         orderPanel.setVisible(true);
         this.add(orderPanel);
+        this.setSize(600,600);
         this.revalidate();
         this.repaint();
     }
     
     //Navigater Bar;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3;
+    private javax.swing.JMenu jMenu1 = new javax.swing.JMenu();
+    private javax.swing.JMenu jMenu2 = new javax.swing.JMenu("User");
+    private javax.swing.JMenu jMenu3 = new javax.swing.JMenu("Settings");
+    private javax.swing.JMenu jMenu4 = new javax.swing.JMenu("Search");
+    private javax.swing.JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
+    private javax.swing.JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
+    private javax.swing.JMenuItem jMenuItem2 = new javax.swing.JMenuItem("Exit");
+    private javax.swing.JMenuItem jMenuItem3 = new javax.swing.JMenuItem("My Collection");
+    private javax.swing.JMenuItem jMenuItem4 = new javax.swing.JMenuItem("jMenuItem4");
+    private javax.swing.JMenuItem jMenuItem5 = new javax.swing.JMenuItem("My OrderList");
+    private javax.swing.JMenuItem jMenuItem7 = new javax.swing.JMenuItem("Hotel List");
+    private javax.swing.JMenuItem jMenuItem6 = new javax.swing.JMenuItem("jMenuItem6");
+    private javax.swing.JRadioButton jRadioButton1 = new javax.swing.JRadioButton("jRadioButton1");
+    private javax.swing.JRadioButton jRadioButton2 = new javax.swing.JRadioButton("jRadioButton2");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem("Double bed and Breakfast");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem("Single bed and Breakfast");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem("Double bed");
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem4 = new javax.swing.JRadioButtonMenuItem("Single bed");
     private void NavigateBar() {
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem();
-
-        jMenuItem4.setText("jMenuItem4");
-
-        jMenuItem6.setText("jMenuItem6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hotel Booking System");
-
-        jRadioButton1.setText("jRadioButton1");
-
-        jRadioButton2.setText("jRadioButton2");
-
-        jMenu3.setText("Settings");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\修改密码.png")); // NOI18N
         jMenuItem1.setText("Change password");
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\退出.png")); // NOI18N
-        jMenuItem2.setText("Exit");
-        jMenuItem2.setActionCommand("Exit");
+        
         jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
 
-        jMenu2.setText("User");
-
-        jMenuItem3.setText("My Collection");
         jMenuItem3.setToolTipText("");
         jMenu2.add(jMenuItem3);
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon("C:\\Users\\25433\\Desktop\\StudentInfo\\src\\images\\确认.png")); // NOI18N
-        jMenuItem5.setText("My OrderLIst");
+        
         jMenu2.add(jMenuItem5);
+        jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
         jMenuBar1.add(jMenu1);
 
-        jMenu4.setText("Search");
-
-        jRadioButtonMenuItem2.setText("Single room");
         jMenu4.add(jRadioButtonMenuItem2);
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("Double room");
+        
+        
         jMenu4.add(jRadioButtonMenuItem1);
 
-        jRadioButtonMenuItem3.setSelected(true);
-        jRadioButtonMenuItem3.setText("Breakfast");
+        
+        
         jMenu4.add(jRadioButtonMenuItem3);
 
+        jMenu4.add(jRadioButtonMenuItem4);
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -336,44 +314,62 @@ public class View extends JFrame implements Observer{
     }
     
 //    //OrderList Page;
-//    private JPanel orderlistpanel;
-//    private JPanel orderlistpanel1 = new JPanel();
-//    private JScrollPane orderlistScroll = new JScrollPane(orderlistpanel1);
-//    private JLabel orderlistlabel;
-//    private JTextField orderlisttext;
-//    private JButton orderlistbu1;
-//    private void OrderList() {
-////        this.setLayout(new GridLayout(2,1) );
-////        this.getContentPane().removeAll();
-//        orderlistpanel1.setLayout(new GridLayout(OrderNumber, 1));
-//        orderlistpanel1.setBounds(20, 20, 500, 500);
-//        for (int i = 0; i < OrderNumber; i++) {
-//            orderlistpanel = new JPanel();
-//            orderlistlabel = new JLabel("No: " + i);
-//            orderlisttext = new JTextField("This is NO: " + i);
-//            orderlistbu1 = new JButton("Delete");
-//            orderlistpanel.add(orderlistlabel);
-//            orderlistpanel.add(orderlisttext);
-//            orderlistpanel.add(orderlistbu1);
-//
-//            orderlistpanel1.add(orderlistpanel);
-//        }
-//
-////        this.getContentPane().add(orderlistScroll);
-////        this.setVisible(true);
-////        this.revalidate();
-////        this.repaint();
-//    }
-//    public void Orderinformation() {
-//        this.getContentPane().removeAll();
-//        NavigateBar();
-//        OrderList();
-//
-//        this.setLayout(new GridLayout(1, 1));
-//
-//        this.add(orderlistScroll);
-//        this.setVisible(true);
-//    }
+    private ArrayList<Order> ordercollection;
+    public JPanel orderlistpanel ;
+    private JLabel orderlistlabel_1  ;
+    private JLabel orderlistlabel_2  ;
+    private JLabel orderlistlabel_3  ;
+    private JLabel orderlistlabel_4  ;
+    private JLabel orderlistlabel_5  ;
+    private JLabel orderlistlabel_6  ;
+    private JLabel orderlistlabel_7  ;
+    private JLabel orderlistlabel_8  ;
+    private JLabel orderlistlabel_9  ;
+    private void OrderList() {
+        this.getContentPane().removeAll();
+        NavigateBar();
+        JPanel orderlistpanel1 = new JPanel();
+        JScrollPane orderlistScroll = new JScrollPane(orderlistpanel1);
+        orderlistpanel1.setLayout(new GridLayout(ordercollection.size(),1,10,10) );
+        orderlistpanel1.setBounds(20,20,500,500);
+        for(int i=0;i<ordercollection.size();i++){
+            orderlistpanel = new JPanel();
+            orderlistpanel.setLayout(new GridLayout(5,2));
+            orderlistpanel.setBackground(Color.PINK);
+            orderlistlabel_1  = new JLabel("No:   "+ordercollection.get(i).getOrderid());
+            orderlistlabel_2  = new JLabel("UserID:   "+ordercollection.get(i).getUserid());
+            orderlistlabel_3  = new JLabel("UserName:   "+ordercollection.get(i).getUsertruename());
+            orderlistlabel_4  = new JLabel("UserPhone:   "+ordercollection.get(i).getUserphone());
+            orderlistlabel_5  = new JLabel("BoookDay:   "+ordercollection.get(i).getBookday());
+            orderlistlabel_6  = new JLabel("TotalCost:   "+ordercollection.get(i).getTotalcost());
+            orderlistlabel_7  = new JLabel("HotelName:   "+ordercollection.get(i).getHotename());
+            orderlistlabel_8  = new JLabel("RoomStyle:   "+ordercollection.get(i).getRoomstyle());
+            orderlistlabel_9  = new JLabel("Status:   "+ordercollection.get(i).getOrderstatus());
+            
+            orderlistpanel.add(orderlistlabel_1);
+            orderlistpanel.add(orderlistlabel_2);
+            orderlistpanel.add(orderlistlabel_3);
+            orderlistpanel.add(orderlistlabel_4);
+            orderlistpanel.add(orderlistlabel_5);
+            orderlistpanel.add(orderlistlabel_6);
+            orderlistpanel.add(orderlistlabel_7);
+            orderlistpanel.add(orderlistlabel_8);
+            orderlistpanel.add(orderlistlabel_9);
+            
+            
+            JButton orderlistbu1 = new JButton("Cancel:"+ordercollection.get(i).getOrderid());
+            orderlistbu1.addActionListener(listener);
+            orderlistpanel.add(orderlistbu1);
+            
+            
+            
+            orderlistpanel1.add(orderlistpanel);
+        }
+        this.setLayout(new GridLayout(1, 1));
+        this.add(orderlistScroll);
+        this.setSize(600,600);
+        this.setVisible(true);
+    }
     
     public void addActionListener(ActionListener listener){
         this.listener = listener;
@@ -381,6 +377,14 @@ public class View extends JFrame implements Observer{
         registerButton.addActionListener(listener);
         registerButton2.addActionListener(listener);
         payButton.addActionListener(listener);
+        jMenuItem2.addActionListener(listener);
+        jMenuItem5.addActionListener(listener);
+        jMenuItem7.addActionListener(listener);
+        jRadioButtonMenuItem1.addActionListener(listener);
+        jRadioButtonMenuItem2.addActionListener(listener);
+        jRadioButtonMenuItem3.addActionListener(listener);
+        jRadioButtonMenuItem4.addActionListener(listener);
+       
 
     }
     public void update(Observable arg0, Object arg1) {
@@ -391,14 +395,14 @@ public class View extends JFrame implements Observer{
             this.emailInput.setText("");
             JOptionPane.showMessageDialog(RegisterPanel, "Username is exists", "Error",JOptionPane.ERROR_MESSAGE);  
         }
-        else if(data.getLoginflag()==0){
+        else if(data.getLoginflag()==1){
             this.userInput.setText("");
             this.passInput.setText("");
             JOptionPane.showMessageDialog(LoginPanel, "Enter the right username and password", "Error",JOptionPane.ERROR_MESSAGE);  
         }
         else if(data.getGethotelinfoflag()==1){
             hotelcollection = (ArrayList<Hotel>)data.getSource();
-            this.Hotelinformation();
+            this.HotelList();
         }
         else if(data.getGetroominfoflag()==1){
             roomcollection = (ArrayList<Room>)data.getSource();
@@ -406,11 +410,16 @@ public class View extends JFrame implements Observer{
         }
         else if(data.getRoomexistflag()==1){
             JOptionPane.showMessageDialog(orderPanel, "room is not enough", "Error",JOptionPane.ERROR_MESSAGE);
-            this.Hotelinformation();
+            this.HotelList();
         }
         else if(data.getPayflag()==1){
-            this.Hotelinformation();
+            this.HotelList();
         }
+        else if(data.getGetorderinfoflag()==1){
+            ordercollection = (ArrayList<Order>)data.getSource();
+            this.OrderList();
+        }
+        
     }
     
 }
