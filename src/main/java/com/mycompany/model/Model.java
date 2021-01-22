@@ -121,13 +121,13 @@ public class Model extends Observable{
         dm.initialize();
         ArrayList<Hotel> hotelcollection = jdbcTemplate.selectHotelInfo(hotelstyle,hotelbreakfast);
         if(hotelcollection!=null){
-            dm.setSearchflag(1);
+            dm.setGethotelinfoflag(1);
             dm.setSource(hotelcollection);
             this.setChanged();
             this.notifyObservers(dm);
         }
         else{
-            dm.setSearchflag(0);
+            dm.setGethotelinfoflag(0);
             this.setChanged();
             this.notifyObservers(dm);
         }

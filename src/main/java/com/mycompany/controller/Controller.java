@@ -85,21 +85,12 @@ public class Controller implements ActionListener{
                 String breakfast = "Breakfase";
                 this.model.getHotelInfoByStyleandBreakfast(style, breakfast);
                 break;
-            case "Single Room + Breakfast":
-                String style1 = "Single";
-                String breakfast1 = "Breakfase";
-                this.model.getHotelInfoByStyleandBreakfast(style1, breakfast1);
-                break;
-            case "Single Room":
-                String style2 = "Single";
-                String breakfast2 = "";
-                this.model.getHotelInfoByStyleandBreakfast(style2, breakfast2);
-                break;
             case "Double Room":
-                String style3 = "Double";
-                String breakfast3 = "";
-                this.model.getHotelInfoByStyleandBreakfast(style3, breakfast3);
-                break;    
+                
+                break;
+            case "Breakfast":
+                
+                break;
 //            case "Get Userinfo":
 //                this.model.getUserInfo();
 //                break;
